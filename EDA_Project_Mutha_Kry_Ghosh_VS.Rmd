@@ -1,0 +1,76 @@
+\newpage
+\tableofcontents 
+\newpage
+\listoftables 
+\newpage
+\listoffigures 
+\newpage
+
+```{r setup, include=FALSE}
+# Set your working directory
+getwd()
+# Load your packages
+#install.packages("tidyverse")
+library(tidyverse)
+#install.packages("knitr")
+library(knitr)
+
+# Set your ggplot theme
+my_theme <- theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_text(colour = "#440000"),
+    plot.title = element_text(colour = "blue",
+                              hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    axis.title = element_text(colour = "#4169e1")
+  )
+theme_set(my_theme)
+# Load your datasets
+download.file(url = "https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx",
+              destfile = "./eGRID2021_data.xlsx")
+egrid2021 <- readxl::read_xlsx(path = "./eGRID2021_data.xlsx",
+                               sheet = "PLNT21",
+                               skip = 1)
+
+```
+
+
+# Rationale and Research Questions
+
+
+
+\newpage
+
+# Dataset Information
+
+
+
+\newpage
+
+# Exploratory Analysis 
+
+
+
+\newpage
+
+# Analysis
+
+
+
+## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+
+## Question 2: 
+
+
+
+
+\newpage
+
+# Summary and Conclusions
+
+
+\newpage
+
+# References
+<add references here if relevant, otherwise delete this section> 
