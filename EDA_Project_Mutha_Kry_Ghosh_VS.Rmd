@@ -67,6 +67,13 @@ egrid_subset$Region[egrid_subset$PSTATABB %in% FarWest] <- "Far West"
 egrid_subset$Region[egrid_subset$PSTATABB %in% NonContiguous] <- "Non-Contiguous"
 
 egrid_subset$Region == "blank" #verifying that all states have been categorised
+
+# Load your packages
+
+# Set your ggplot theme
+
+# Load your datasets
+
 ```
 
 
