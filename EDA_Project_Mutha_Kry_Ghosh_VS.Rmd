@@ -27,12 +27,46 @@ my_theme <- theme_minimal() +
   )
 theme_set(my_theme)
 # Load your datasets
-download.file(url = "https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx",
-              destfile = "./eGRID2021_data.xlsx")
+#Source of data is eGRID 2021, accessible from EPA's website at:
+#https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx
 egrid2021 <- readxl::read_xlsx(path = "./eGRID2021_data.xlsx",
-                               sheet = "PLNT21",
+                               sheet = "ST21",
                                skip = 1)
 
+#eGRID is a huge dataset with several data fields and we will only be using a subset of them.
+#so this next line is to subset the database and select only those fields that we will be working with.
+egrid_subset <- egrid2021 %>%
+  select(PSTATABB, STNAMEPCAP, STNGENAN, STNOXAN, STSO2AN, STCO2AN, STCO2EQA, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF)
+
+#Creating a new blank column to represent the region that each state is from
+#based on the classification system used by Bureau of Economic Analysis
+egrid_subset <- egrid_subset %>%
+  add_column(.before = "PSTATABB",
+             Region = "blank")
+
+#Source for the following classification of states into regions:
+#https://apps.bea.gov/regional/docs/msalist.cfm?mlist=2
+NewEngland <- c("CT", "ME", "MA", "NH", "RI", "VT")
+MidEast <- c("DE", "DC", "MD", "NJ", "NY", "PA")
+GreatLakes <- c("IL", "IN", "MI", "OH", "WI")
+Plains <- c("IA", "KS", "MN", "MO", "NE", "ND", "SD")
+SouthEast <- c("AL", "AR", "FL", "GA", "KY", "LA", "MS", "NC", "SC", "TN", "VA", "WV")
+SouthWest <- c("AZ", "NM", "OK", "TX")
+RockyMountain <- c("CO", "ID", "MT", "UT", "WY")
+FarWest <- c("CA", "HI", "NV", "OR", "WA")
+NonContiguous <- c("AK", "PR") #not a classification used by BEA but one that is useful for analysing this dataset
+
+egrid_subset$Region[egrid_subset$PSTATABB %in% NewEngland] <- "New England"
+egrid_subset$Region[egrid_subset$PSTATABB %in% MidEast] <- "Mid East"
+egrid_subset$Region[egrid_subset$PSTATABB %in% GreatLakes] <- "Great Lakes"
+egrid_subset$Region[egrid_subset$PSTATABB %in% Plains] <- "Plains"
+egrid_subset$Region[egrid_subset$PSTATABB %in% SouthEast] <- "South East"
+egrid_subset$Region[egrid_subset$PSTATABB %in% SouthWest] <- "South West"
+egrid_subset$Region[egrid_subset$PSTATABB %in% RockyMountain] <- "Rocky Mountain"
+egrid_subset$Region[egrid_subset$PSTATABB %in% FarWest] <- "Far West"
+egrid_subset$Region[egrid_subset$PSTATABB %in% NonContiguous] <- "Non-Contiguous"
+
+egrid_subset$Region == "blank" #verifying that all states have been categorised
 ```
 
 
