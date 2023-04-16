@@ -39,7 +39,7 @@ theme_set(my_theme)
 # Load your datasets
 #Source of data is eGRID 2021, accessible from EPA's website at:
 #https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx
-egrid2021 <- readxl::read_xlsx(path = "./eGRID2021_data.xlsx",
+egrid2021 <- readxl::read_xlsx(path = "./Data/Raw/eGRID2021_data.xlsx",
                                sheet = "ST21",
                                skip = 1)
 
@@ -78,7 +78,7 @@ egrid_subset$Region[egrid_subset$PSTATABB %in% NonContiguous] <- "Non-Contiguous
 
 egrid_subset$Region == "blank" #verifying that all states have been categorised
 
-write.csv(egrid_subset, file = "")
+write.csv(egrid_subset, file = "./Data/Processed/egrid2021_st21_processed.csv")
 
 
 ```
@@ -105,7 +105,14 @@ These analyses will be performed by aggregating the states into categories as do
 # Exploratory Analysis 
 
 ```{r summary.stats}
+summary.plants <- egrid_subset %>%
+  group_by(Region) %>%
+  summarise(STNAMEPCAP, STNGENAN)
+summary.plants
 
+STNOXAN, STSO2AN, STCO2AN, STCO2EQA, 
+
+STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF
 ```
 
 
