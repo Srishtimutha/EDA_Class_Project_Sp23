@@ -39,7 +39,7 @@ theme_set(my_theme)
 # Load your datasets
 #Source of data is eGRID 2021, accessible from EPA's website at:
 #https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx
-egrid2021 <- readxl::read_xlsx(path = "./Data/Raw/eGRID2021_data.xlsx",
+egrid2021 <- readxl::read_xlsx(path = "./eGRID2021_data.xlsx",
                                sheet = "ST21",
                                skip = 1)
 
@@ -87,10 +87,10 @@ write.csv(egrid_subset, file = "")
 # Rationale and Research Questions
 The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. This project aims to use eGRID 2021 (which was published this year in 2023) to answer the following research questions:
 
-1. What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
-2. What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
-3. Some summary statistics of generation of all generators, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted;
-4. Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators. 
+1. What is the distribution across the US of electricity generation from renewable and non-renewable energy sources?
+2. What is the distribution of supply from the different renewable energy sources?
+3. Some summary statistics of generators of all generators, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted;
+4. Emissions from different states/regions from these generators
 
 These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the eGRID dataset that are not part of mainland USA.
 
@@ -106,6 +106,8 @@ These analyses will be performed by aggregating the states into categories as do
 
 ```{r summary.stats}
 
+
+
 ```
 
 
@@ -117,8 +119,30 @@ These analyses will be performed by aggregating the states into categories as do
 
 ## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
 
-## Question 2: 
+## Question 4: 
 
+```{r}
+# Scatterplot
+ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
+  geom_boxplot()
+
+#T.Test
+
+T_GENOX <- lm(egrid_subset$STNGENAN ~ egrid_subset$STNOXAN)
+summary(T_GENOX)
+
+T_GESO2 <-lm(egrid_subset$STNGENAN ~ egrid_subset$STSO2AN)
+summary(T_GESO2)
+
+T_GECO2 <- lm(egrid_subset$STNGENAN ~ egrid_subset$STCO2AN)
+summary(T_GECO2)
+
+T_GECO2EQA <- lm(egrid_subset$STNGENAN ~ egrid_subset$STCO2EQA)
+summary(T_GECO2EQA)
+
+
+
+```
 
 
 
