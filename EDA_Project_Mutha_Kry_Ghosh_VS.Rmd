@@ -1,4 +1,14 @@
-\newpage
+---
+title: ""
+author: "Srishti Mutha, Sokna Kry, Samriddha Ghosh, Nagarajan Vaidya Subramanian"
+date: "Spring 2023"
+output:
+  word_document: default
+  pdf_document: default
+geometry: margin=2.54cm
+fig_caption: true
+
+---
 \tableofcontents 
 \newpage
 \listoftables 
@@ -68,18 +78,19 @@ egrid_subset$Region[egrid_subset$PSTATABB %in% NonContiguous] <- "Non-Contiguous
 
 egrid_subset$Region == "blank" #verifying that all states have been categorised
 
-# Load your packages
-
-# Set your ggplot theme
-
-# Load your datasets
-
+write.csv(egrid_subset, file = "")
 ```
 
 
 # Rationale and Research Questions
+The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. This project aims to use eGRID 2021 (which was published this year in 2023) to answer the following research questions:
 
+1. What is the distribution across the US of electricity generation from renewable and non-renewable energy sources?
+2. What is the distribution of supply from the different renewable energy sources?
+3. Some summary statistics of generators of all generators, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted;
+4. Emissions from different states/regions from these generators
 
+These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the eGRID dataset that are not part of mainland USA.
 
 \newpage
 
@@ -91,6 +102,9 @@ egrid_subset$Region == "blank" #verifying that all states have been categorised
 
 # Exploratory Analysis 
 
+```{r summary.stats}
+
+```
 
 
 \newpage
