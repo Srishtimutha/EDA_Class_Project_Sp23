@@ -97,8 +97,7 @@ These analyses will be performed by aggregating the states into categories as do
 \newpage
 
 # Dataset Information
-
-
+The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually.
 
 \newpage
 
