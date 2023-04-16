@@ -91,10 +91,10 @@ The Environment Protection Agency of the US Government publishes a large dataset
 
 1. What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 2. What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
-3. Some summary statistics of generation of all generators, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted;
-4. Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators. 
+3. Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators. 
+4. Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
 
-These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the eGRID dataset that are not part of mainland USA.
+These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the e-GRID dataset that are not part of mainland USA.
 
 \newpage
 
@@ -139,11 +139,25 @@ STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, 
 
 
 
-## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
+```{r}
 
-## Question 2: 
+```
 
+## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
+```{r}
 
+```
+
+## Question 3: 
+```{r}
+
+```
+
+## Question 4: 
+```{r}
+
+```
 
 
 \newpage
