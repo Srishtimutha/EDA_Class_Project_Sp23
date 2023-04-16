@@ -87,18 +87,24 @@ write.csv(egrid_subset, file = "")
 # Rationale and Research Questions
 The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. This project aims to use eGRID 2021 (which was published this year in 2023) to answer the following research questions:
 
+<<<<<<< HEAD
 1. What is the distribution across the US of electricity generation from renewable and non-renewable energy sources?
 2. What is the distribution of supply from the different renewable energy sources?
 3. Some summary statistics of generators of all generators, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted;
 4. Emissions from different states/regions from these generators
+=======
+1. What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
+2. What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
+3. Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators. 
+4. Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
+>>>>>>> 7d12c2527d85788d4fd4a72ed7a8f0fd7e9018c6
 
-These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the eGRID dataset that are not part of mainland USA.
+These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the e-GRID dataset that are not part of mainland USA.
 
 \newpage
 
 # Dataset Information
-
-
+The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually.
 
 \newpage
 
@@ -117,8 +123,17 @@ These analyses will be performed by aggregating the states into categories as do
 
 
 
-## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
+```{r}
 
+```
+
+## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
+```{r}
+
+```
+
+<<<<<<< HEAD
 ## Question 4: 
 
 ```{r}
@@ -140,10 +155,17 @@ summary(T_GECO2)
 T_GECO2EQA <- lm(egrid_subset$STNGENAN ~ egrid_subset$STCO2EQA)
 summary(T_GECO2EQA)
 
+```
 
+## Question 3: 
+```{r}
 
 ```
 
+## Question 4: 
+```{r}
+
+```
 
 
 \newpage
