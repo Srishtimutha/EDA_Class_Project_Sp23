@@ -46,7 +46,7 @@ egrid2021 <- readxl::read_xlsx(path = "./Data/Raw/eGRID2021_data.xlsx",
 #eGRID is a huge dataset with several data fields and we will only be using a subset of them.
 #so this next line is to subset the database and select only those fields that we will be working with.
 egrid_subset <- egrid2021 %>%
-  select(PSTATABB, STNAMEPCAP, STNGENAN, STNOXAN, STSO2AN, STCO2AN, STCO2EQA, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF)
+  select(PSTATABB, STNAMEPCAP, STNGENAN, STNOXAN, STSO2AN, STCO2AN, STCO2EQA, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF, STGENATR, STGENATN)
 
 #Creating a new blank column to represent the region that each state is from
 #based on the classification system used by Bureau of Economic Analysis
