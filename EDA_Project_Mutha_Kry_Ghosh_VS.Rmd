@@ -80,7 +80,6 @@ egrid_subset$Region == "blank" #verifying that all states have been categorised
 
 write.csv(egrid_subset, file = "")
 
-
 ```
 
 
