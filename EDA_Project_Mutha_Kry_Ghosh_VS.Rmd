@@ -104,13 +104,23 @@ The Environment Protection Agency of the US Government publishes a large dataset
 # Exploratory Analysis 
 
 ```{r summary.stats}
+#summary stats of total nameplate capacity and annual generation per region
 summary.plants <- egrid_subset %>%
   group_by(Region) %>%
-  summarise(STNAMEPCAP, STNGENAN)
+  summarise(obs=length(value[!is.na(value)]),
+            min=round(min(value, na.rm = TRUE), 3),
+            max=round(max(value, na.rm = TRUE), 3),
+            mean=round(mean(value, na.rm=TRUE), 3),
+            median=round(median(value, na.rm=TRUE), 3),
+            sd=round(sd(value, na.rm=TRUE), 3),
+            skewness =round(skew(value,na.rm = TRUE), 3))
 summary.plants
 
+#summary stats of region-wise emission of different pollutants and the CO2 equivalents
 STNOXAN, STSO2AN, STCO2AN, STCO2EQA, 
 
+
+#summary stats of region-wise breakdown of generation by fuel type
 STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF
 ```
 
