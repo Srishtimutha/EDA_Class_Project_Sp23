@@ -211,7 +211,7 @@ summary.table.plants <- summary.plants %>%
     median="Median",
     sd = "Standard Deviation"
   )
-summary.table.plants
+#summary.table.plants
 ```
 
 
