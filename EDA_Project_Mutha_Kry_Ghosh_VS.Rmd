@@ -115,6 +115,7 @@ The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehens
 ## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 ```{r distribution}
 
+
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
