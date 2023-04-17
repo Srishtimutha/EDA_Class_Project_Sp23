@@ -19,6 +19,7 @@ fig_caption: true
 # Set your working directory
 getwd()
 # Load your packages
+
 #install.packages("knitr")
 library(knitr) #library of code that helps make pretty rendered docs
 #install.packages("psych")
@@ -69,6 +70,7 @@ SouthEast <- c("AL", "AR", "FL", "GA", "KY", "LA", "MS", "NC", "SC", "TN", "VA",
 SouthWest <- c("AZ", "NM", "OK", "TX")
 RockyMountain <- c("CO", "ID", "MT", "UT", "WY")
 FarWest <- c("CA", "HI", "NV", "OR", "WA")
+
 #this next one is not a classification used by BEA but one that is useful for analysing this dataset
 NonContiguous <- c("AK", "PR") 
 
@@ -82,15 +84,18 @@ egrid_subset$Region[egrid_subset$PSTATABB %in% RockyMountain] <- "Rocky Mountain
 egrid_subset$Region[egrid_subset$PSTATABB %in% FarWest] <- "Far West"
 egrid_subset$Region[egrid_subset$PSTATABB %in% NonContiguous] <- "Non-Contiguous"
 
-egrid_subset$Region == "blank" #verifying that all states have been categorised
+egrid_subset$Region == "blank" #verifying that all states have been categorized
 
-write.csv(egrid_subset, file = "./Data/Processed/egrid2021_st21_processed.csv")
+#uncomment this code when there's any changes to the subsetting
+#write.csv(egrid_subset, file = "./Data/Processed/egrid2021_st21_processed.csv")
 
 ```
 
 
 # Rationale and Research Questions
-The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. This project aims to use eGRID 2021 (which was published this year in 2023) to answer the following research questions:
+The US has been transitioning towards a greater reliance on renewable energy sources such as wind, solar, hydro power and many more technologies. Analyzing the e-Grid data can provide insights into the distribution of clean energy generation across US, performance of these renewable energy sources, their impact on the electricity generation and energy markets throughout USA, and whether they are meeting the expectations of energy companies, policymakers, and consumers. 
+
+This project aims to use e-GRID 2021 (published January 2023) to answer the following research questions:
 
 1. What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 2. What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
@@ -103,11 +108,12 @@ These analyses will be performed by aggregating the states into categories as do
 \newpage
 
 # Dataset Information
-The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually.
+The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehensive source of data published by the Environment Protection Agency of the US Government.  This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. It includes emissions, emission rates, generation, heat input, resource mix, and many other attributes. eGRID is typically used for greenhouse gas registries and inventories, carbon footprints, consumer information disclosure, emission inventories and standards, power market changes, and avoided emission estimates.In our project we have used the e-Grid 2021 data-set which was released on January 30th, 2023. 
 
 Below are some summary statistics of the installed capacity and annual generation per region, pollutants and their CO2 equivalents per region, and lastly about the distribution of annual generation across different renewable and non-renewable sources of energy.
 
 \newpage
+
 
 # Exploratory Analysis 
 
@@ -125,9 +131,9 @@ summary.plants <- egrid_subset %>%
   summarise(obs = length(value[!is.na(value)]),
             min = round(min(value, na.rm = TRUE), 2),
             max = round(max(value, na.rm = TRUE), 2),
-            mean = round(mean(value, na.rm=TRUE), 2),
-            median = round(median(value, na.rm=TRUE), 2),
-            sd = round(sd(value, na.rm=TRUE), 2),
+            mean = round(mean(value, na.rm =TRUE), 2),
+            median = round(median(value, na.rm =TRUE), 2),
+            sd = round(sd(value, na.rm =TRUE), 2),
             skewness = round(skew(value,na.rm = TRUE), 2))
 
 #summary stats of region-wise emission of different pollutants and the CO2 equivalents
@@ -147,7 +153,7 @@ summary.pollution <- egrid_subset %>%
   summarise(obs = length(value[!is.na(value)]),
             min = round(min(value, na.rm = TRUE), 2),
             max = round(max(value, na.rm = TRUE), 2),
-            mean = round(mean(value, na.rm=TRUE), 2),
+            mean = round(mean(value, na.rm = TRUE), 2),
             median = round(median(value, na.rm=TRUE), 2),
             sd = round(sd(value, na.rm=TRUE), 2),
             skewness = round(skew(value, na.rm = TRUE), 2))
@@ -189,62 +195,57 @@ summary.fuels <- egrid_subset %>%
 ```
 
 ```{r summary.tables, include=FALSE}
-# summary.table.plants <- summary.plants %>%
-#   gt() %>%
-#     tab_options(table.width = pct(95)) %>%
-#     cols_width(c(variable)~ px(200),
-#                everything()~ px(120) )%>%
-#   
-#   tab_header(
-#     title = md("Table 1: Summary Statistics for Variables per Region")) %>%
-#   
-#   fmt_passthrough (columns=c(variable)) %>%
-#   fmt_number(columns=c(obs), decimals=0) %>%
-#   
-#   fmt_number(
-#     columns = 3:7,
-#     rows = all(),
-#     n_sigfig = 3,
-#     sep_mark = ",") %>%
-#   
-#   cols_label(variable="Variable",
-#     obs = "Observations",
-#     mean = "Mean",
-#     median="Median",
-#     sd = "Standard Deviation")
+summary.table.plants <- summary.plants %>%
+  gt() %>%
+    tab_options(table.width = pct(95)) %>%
+    cols_width(c(variable)~ px(200),
+               everything()~ px(120) )%>%
+
+  tab_header(
+    title = md("Table 1: Summary Statistics for Variables per Region")) %>%
+
+  fmt_passthrough (columns=c(variable)) %>%
+  fmt_number(columns=c(obs), decimals=0) %>%
+
+  fmt_number(
+    columns = 3:7,
+    rows = all(),
+    n_sigfig = 3,
+    sep_mark = ",") %>%
+
+  cols_label(variable="Variable",
+    obs = "Observations",
+    mean = "Mean",
+    median="Median",
+    sd = "Standard Deviation")
+
 summary.table.plants
+
+summary.table.plants <- summary.plants %>%
+  group_by(variable) %>%
+  kable(align = c("l", rep("c", 8)))
+
+
 ```
-
-
 
 \newpage
 
 # Analysis
-
-
-
 ## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
-```{r}
+```{r distribution}
+
 
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
-```{r}
+```{r }
 
 ```
 
-## Question 2: 
-
-```{r}
-
-
-```
-
-## Question 3: 
+## Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
 ```{r}
 
 ```
-
 
 
 ## Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
