@@ -255,10 +255,10 @@ print(distribution_rene)
 
 colnames(distribution_rene) <- c("Region","Hydro-power generation(MWh)","Biomass generation(MWh) ","Wind generation(MWh)","Solar generation(MWh)","Geothermal generation(MWh)")
 
-distribution_rene<-aggregate(cbind(STGENACL,STGENAOL,STGENAGS,STGENANC) ~ Region,data=egrid_subset, FUN=sum)
-print(distribution_rene)
+distribution_nonrene<-aggregate(cbind(STGENACL,STGENAOL,STGENAGS,STGENANC) ~ Region,data=egrid_subset, FUN=sum)
+print(distribution_nonrene)
 
-colnames(distribution_rene) <- c("Region","Coal generation(MWh)","Oil generation(MWh)","Natural Gas generation(MWh)","Nuclear generation(MWh)")
+colnames(distribution_nonrene) <- c("Region","Coal generation(MWh)","Oil generation(MWh)","Natural Gas generation(MWh)","Nuclear generation(MWh)")
 
 
 ```
