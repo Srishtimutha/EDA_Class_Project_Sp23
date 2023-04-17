@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "Analysis of power generation across USA"
 author: "Srishti Mutha, Sokna Kry, Samriddha Ghosh, Nagarajan Vaidya Subramanian"
 date: "Spring 2023"
 output:
@@ -98,7 +98,7 @@ The US has been transitioning towards a greater reliance on renewable energy sou
 This project aims to use e-GRID 2021 (published January 2023) to answer the following research questions:
 
 1. What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
-2. What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
+2. What is the distribution of generation from each type of renewable and non-renewable energy sources across Bureau of Economic Analysis regions in the US?
 3. Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators. 
 4. Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
 5. Is there correlation between energy generators and pollutants emitted? 
@@ -240,8 +240,8 @@ print(generation_rene)
 generation_nonrene<-aggregate(egrid_subset$STGENATN , by=list(egrid_subset$Region), FUN=sum)
 print(generation_nonrene)
 
-colnames(generation_rene) <- c("Region", "Total renewable generation")
-colnames(generation_nonrene) <- c("Region", "Total non-renewable generation")
+colnames(generation_rene) <- c("Region", "Total renewable generation (MWh)")
+colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh)")
 
 #bar plot
 
@@ -253,7 +253,13 @@ colnames(generation_nonrene) <- c("Region", "Total non-renewable generation")
 distribution_rene<-aggregate(cbind(STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT) ~ Region,data=egrid_subset, FUN=sum)
 print(distribution_rene)
 
-colnames(distribution_rene) <- c("Region","Hydro","Biomass","Wind","Solar","Geothermal")
+colnames(distribution_rene) <- c("Region","Hydro-power generation(MWh)","Biomass generation(MWh) ","Wind generation(MWh)","Solar generation(MWh)","Geothermal generation(MWh)")
+
+distribution_rene<-aggregate(cbind(STGENACL,STGENAOL,STGENAGS,STGENANC) ~ Region,data=egrid_subset, FUN=sum)
+print(distribution_rene)
+
+colnames(distribution_rene) <- c("Region","Coal generation(MWh)","Oil generation(MWh)","Natural Gas generation(MWh)","Nuclear generation(MWh)")
+
 
 ```
 
@@ -307,7 +313,7 @@ ggplot(egrid_subset, aes(x = Region, y = STGENASO)) +
 
 ## Question 5: Is there correlation between energy generators and pollutants emitted? 
 Ho: There is no correlation between energy generators and pollutants emitted
-H1: There is correlation between energy generators and pollutants emitted
+Ha: There is correlation between energy generators and pollutants emitted
 
 ```{r Research Question 5}
 #T.Test
