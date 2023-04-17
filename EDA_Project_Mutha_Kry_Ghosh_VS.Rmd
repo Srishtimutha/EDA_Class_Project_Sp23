@@ -20,11 +20,11 @@ fig_caption: true
 # Set your working directory
 getwd()
 # Load your packages
-#install.packages("knitr")
+install.packages("knitr")
 library(knitr)
-#install.packages("psych")
+install.packages("psych")
 library(psych)
-#install.packages("tidyverse")
+install.packages("tidyverse")
 library(tidyverse)
 
 # Set your ggplot theme
@@ -41,7 +41,7 @@ theme_set(my_theme)
 # Load your datasets
 #Source of data is eGRID 2021, accessible from EPA's website at:
 #https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx
-egrid2021 <- readxl::read_xlsx(path = "./eGRID2021_data.xlsx",
+egrid2021 <- readxl::read_xlsx(path = "./Data/Raw/eGRID2021_data.xlsx",
                                sheet = "ST21",
                                skip = 1)
 
