@@ -7,7 +7,6 @@ output:
   pdf_document: default
 geometry: margin=2.54cm
 fig_caption: true
-
 ---
 \tableofcontents 
 \newpage
@@ -70,7 +69,8 @@ SouthEast <- c("AL", "AR", "FL", "GA", "KY", "LA", "MS", "NC", "SC", "TN", "VA",
 SouthWest <- c("AZ", "NM", "OK", "TX")
 RockyMountain <- c("CO", "ID", "MT", "UT", "WY")
 FarWest <- c("CA", "HI", "NV", "OR", "WA")
-NonContiguous <- c("AK", "PR") #not a classification used by BEA but one that is useful for analysing this dataset
+#this next one is not a classification used by BEA but one that is useful for analysing this dataset
+NonContiguous <- c("AK", "PR") 
 
 egrid_subset$Region[egrid_subset$PSTATABB %in% NewEngland] <- "New England"
 egrid_subset$Region[egrid_subset$PSTATABB %in% MidEast] <- "Mid East"
@@ -189,29 +189,30 @@ summary.fuels <- egrid_subset %>%
 ```
 
 ```{r summary.tables, include=FALSE}
-summary.table.plants <- summary.plants %>%
-  gt() %>%
-    
-    tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(200),
-               everything()~ px(120) )%>%
-  tab_header(
-    title = md("Table 1: Summary Statistics for Variables per Region"))%>%
-  fmt_passthrough (columns=c(variable)) %>%
-  
-  fmt_number(columns=c(obs), decimals=0) %>%
-  fmt_number(
-  columns = 3:7,
-    rows = all(),
-    n_sigfig = 3,
-    sep_mark = ",") %>%
-  cols_label(variable="Variable",
-    obs = "Observations",
-    mean = "Mean",
-    median="Median",
-    sd = "Standard Deviation"
-  )
-#summary.table.plants
+# summary.table.plants <- summary.plants %>%
+#   gt() %>%
+#     tab_options(table.width = pct(95)) %>%
+#     cols_width(c(variable)~ px(200),
+#                everything()~ px(120) )%>%
+#   
+#   tab_header(
+#     title = md("Table 1: Summary Statistics for Variables per Region")) %>%
+#   
+#   fmt_passthrough (columns=c(variable)) %>%
+#   fmt_number(columns=c(obs), decimals=0) %>%
+#   
+#   fmt_number(
+#     columns = 3:7,
+#     rows = all(),
+#     n_sigfig = 3,
+#     sep_mark = ",") %>%
+#   
+#   cols_label(variable="Variable",
+#     obs = "Observations",
+#     mean = "Mean",
+#     median="Median",
+#     sd = "Standard Deviation")
+summary.table.plants
 ```
 
 
