@@ -232,7 +232,7 @@ summary.table.plants
 
 # Analysis
 ## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
-```{r distribution}
+```{r Research Question 1}
 
 generation_rene<-aggregate(egrid_subset$STGENATR, by=list(egrid_subset$Region), FUN=sum)
 print(generation_rene)
@@ -243,10 +243,17 @@ print(generation_nonrene)
 colnames(generation_rene) <- c("Region", "Total renewable generation")
 colnames(generation_nonrene) <- c("Region", "Total non-renewable generation")
 
+#bar plot
+
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
-```{r }
+```{r Research Question 2}
+
+distribution_rene<-aggregate(cbind(STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT) ~ Region,data=egrid_subset, FUN=sum)
+print(distribution_rene)
+
+colnames(distribution_rene) <- c("Region","Hydro","Biomass","Wind","Solar","Geothermal")
 
 ```
 
@@ -267,11 +274,12 @@ colnames(generation_nonrene) <- c("Region", "Total non-renewable generation")
   ggplot(mapping = aes(x = Region,
                        colour = variable)) +
     geom_bar(position = "stack")
+
 ```
 
 
 ## Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
-```{r}
+```{r Research Question 4}
 # Boxplot
 ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
   geom_boxplot()
@@ -296,7 +304,7 @@ ggplot(egrid_subset, aes(x = Region, y = STGENASO)) +
 Ho: There is no correlation between energy generators and pollutants emitted
 H1: There is correlation between energy generators and pollutants emitted
 
-```{r}
+```{r Research Question 5}
 #T.Test
 
 T_GENOX <- lm(egrid_subset$STNGENAN ~ egrid_subset$STNOXAN)
