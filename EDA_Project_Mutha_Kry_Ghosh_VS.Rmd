@@ -221,9 +221,9 @@ summary.table.plants <- summary.plants %>%
 
 summary.table.plants
 
-summary.table.plants <- summary.plants %>%
-  group_by(variable) %>%
-  kable(align = c("l", rep("c", 8)))
+# summary.table.plants <- summary.plants %>%
+#   group_by(variable) %>%
+#   kable(align = c("l", rep("c", 8)))
 
 
 ```
@@ -252,7 +252,21 @@ colnames(generation_nonrene) <- c("Region", "Total non-renewable generation")
 
 ## Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
 ```{r}
-
+#pollutants.plot <- 
+  egrid_subset %>%
+  select(Region, STNOXAN, STSO2AN, STCO2AN) %>%
+  group_by(Region) %>%
+  summarise("Total NOx emissions" = sum(STNOXAN),
+            "Total SO2 emissions" = sum(STSO2AN),
+            "Total CO2 emissions" = sum(STCO2AN)) %>%
+  pivot_longer(cols = c("Total NOx emissions",
+                        "Total SO2 emissions",
+                        "Total CO2 emissions"),
+               names_to = "variable",
+               values_to = "values") %>%
+  ggplot(mapping = aes(x = Region,
+                       colour = variable)) +
+    geom_bar(position = "stack")
 ```
 
 
