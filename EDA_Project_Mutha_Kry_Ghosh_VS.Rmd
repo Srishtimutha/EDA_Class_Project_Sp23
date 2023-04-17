@@ -234,6 +234,14 @@ summary.table.plants <- summary.plants %>%
 ## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 ```{r distribution}
 
+generation_rene<-aggregate(egrid_subset$STGENATR, by=list(egrid_subset$Region), FUN=sum)
+print(generation_rene)
+
+generation_nonrene<-aggregate(egrid_subset$STGENATN , by=list(egrid_subset$Region), FUN=sum)
+print(generation_nonrene)
+
+colnames(generation_rene) <- c("Region", "Total renewable generation")
+colnames(generation_nonrene) <- c("Region", "Total non-renewable generation")
 
 ```
 
