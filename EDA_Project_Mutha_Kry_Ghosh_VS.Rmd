@@ -232,7 +232,7 @@ summary.table.plants
 
 # Analysis
 ## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
-```{r Research Question 1}
+```{r Research.Question.1, include=FALSE}
 
 generation_rene<-aggregate(egrid_subset$STGENATR, by=list(egrid_subset$Region), FUN=sum)
 print(generation_rene)
@@ -248,7 +248,7 @@ colnames(generation_nonrene) <- c("Region", "Total non-renewable generation")
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
-```{r Research Question 2}
+```{r Research.Question.2, include=FALSE}
 
 distribution_rene<-aggregate(cbind(STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT) ~ Region,data=egrid_subset, FUN=sum)
 print(distribution_rene)
@@ -258,23 +258,28 @@ colnames(distribution_rene) <- c("Region","Hydro","Biomass","Wind","Solar","Geot
 ```
 
 ## Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
-```{r}
-#pollutants.plot <- 
+```{r Research.Question.3, include=FALSE}
+pollutants.plot <- 
   egrid_subset %>%
-  select(Region, STNOXAN, STSO2AN, STCO2AN) %>%
+  select(Region, STCO2EQA, STCO2AN) %>%
   group_by(Region) %>%
-  summarise("Total NOx emissions" = sum(STNOXAN),
-            "Total SO2 emissions" = sum(STSO2AN),
-            "Total CO2 emissions" = sum(STCO2AN)) %>%
-  pivot_longer(cols = c("Total NOx emissions",
-                        "Total SO2 emissions",
-                        "Total CO2 emissions"),
+  mutate(STCO2EQA = STCO2EQA - STCO2AN) %>%
+  summarise("Total CO2 emissions" = sum(STCO2AN),
+            "Total CO2 equivalents emissions" = sum(STCO2EQA)) %>%
+  pivot_longer(cols = c("Total CO2 emissions",
+                        "Total CO2 equivalents emissions"),
                names_to = "variable",
                values_to = "values") %>%
   ggplot(mapping = aes(x = Region,
-                       colour = variable)) +
-    geom_bar(position = "stack")
-
+                       y = values,
+                       fill = variable)) +
+    geom_bar(stat = "identity",
+             position = position_stack(reverse = TRUE)) +
+    labs(title = "Total CO2 and CO2 eq emissions across regions",
+         x = "Regions",
+         y = "Emissions (tons)") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+pollutants.plot
 ```
 
 
