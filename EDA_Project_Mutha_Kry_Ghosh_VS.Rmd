@@ -64,7 +64,7 @@ SouthEast <- c("AL", "AR", "FL", "GA", "KY", "LA", "MS", "NC", "SC", "TN", "VA",
 SouthWest <- c("AZ", "NM", "OK", "TX")
 RockyMountain <- c("CO", "ID", "MT", "UT", "WY")
 FarWest <- c("CA", "HI", "NV", "OR", "WA")
-NonContiguous <- c("AK", "PR") #not a classification used by BEA but one that is useful for analysing this dataset
+NonContiguous <- c("AK", "PR") #not a classification used by BEA but one that is useful for analyzing this data-set
 
 egrid_subset$Region[egrid_subset$PSTATABB %in% NewEngland] <- "New England"
 egrid_subset$Region[egrid_subset$PSTATABB %in% MidEast] <- "Mid East"
@@ -85,7 +85,9 @@ write.csv(egrid_subset, file = "")
 
 
 # Rationale and Research Questions
-The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. This project aims to use eGRID 2021 (which was published this year in 2023) to answer the following research questions:
+The US has been transitioning towards a greater reliance on renewable energy sources such as wind, solar, hydro power and many more technologies. Analyzing the e-Grid data can provide insights into the distribution of clean energy generation across US, performance of these renewable energy sources, their impact on the electricity generation and energy markets throughout USA, and whether they are meeting the expectations of energy companies, policymakers, and consumers. 
+
+This project aims to use e-GRID 2021 (published January,2023) to answer the following research questions:
 
 1. What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 2. What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
@@ -97,9 +99,8 @@ These analyses will be performed by aggregating the states into categories as do
 \newpage
 
 # Dataset Information
-The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually.
+The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehensive source of data published by the Environment Protection Agency of the US Government.  This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. It includes emissions, emission rates, generation, heat input, resource mix, and many other attributes. eGRID is typically used for greenhouse gas registries and inventories, carbon footprints, consumer information disclosure, emission inventories and standards, power market changes, and avoided emission estimates.In our project we have used the e-Grid 2021 dataset which was released on January 30th, 2023. 
 
-\newpage
 
 # Exploratory Analysis 
 
@@ -111,25 +112,22 @@ The Environment Protection Agency of the US Government publishes a large dataset
 \newpage
 
 # Analysis
-
-
-
 ## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
-```{r}
+```{r distribution}
 
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
+```{r }
+
+```
+
+## Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
 ```{r}
 
 ```
 
-## Question 3: 
-```{r}
-
-```
-
-## Question 4: 
+## Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
 ```{r}
 
 ```
