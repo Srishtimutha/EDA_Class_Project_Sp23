@@ -253,7 +253,7 @@ colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh
 distribution_rene<-aggregate(cbind(STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT) ~ Region,data=egrid_subset, FUN=sum)
 print(distribution_rene)
 
-colnames(distribution_rene) <- c("Region","Hydro-power generation(MWh)","Biomass generation(MWh) ","Wind generation(MWh)","Solar generation(MWh)","Geothermal generation(MWh)")
+colnames(distribution_rene) <- c("Region","Hydro-power generation (MWh)","Biomass generation (MWh) ","Wind generation (MWh)","Solar generation (MWh)","Geothermal generation (MWh)")
 
 distribution_rene<-aggregate(cbind(STGENACL,STGENAOL,STGENAGS,STGENANC) ~ Region,data=egrid_subset, FUN=sum)
 print(distribution_rene)
@@ -264,7 +264,7 @@ colnames(distribution_rene) <- c("Region","Coal generation(MWh)","Oil generation
 ```
 
 ## Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
-```{r Research.Question.3, include=FALSE}
+```{r Research.Question.3, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions", fig.align='center'}
 pollutants.plot <- 
   egrid_subset %>%
   select(Region, STCO2EQA, STCO2AN) %>%
@@ -281,9 +281,9 @@ pollutants.plot <-
                        fill = variable)) +
     geom_bar(stat = "identity",
              position = position_stack(reverse = TRUE)) +
-    labs(title = "Total CO2 and CO2 eq emissions across regions",
-         x = "Regions",
-         y = "Emissions (tons)") +
+    labs(x = "Regions",
+         y = "Emissions (tons)",
+         fill = "Emission category") +
     theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 pollutants.plot
 ```
