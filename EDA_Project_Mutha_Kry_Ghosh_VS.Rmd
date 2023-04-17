@@ -20,10 +20,15 @@ fig_caption: true
 # Set your working directory
 getwd()
 # Load your packages
-#install.packages("tidyverse")
-library(tidyverse)
+
 #install.packages("knitr")
-library(knitr)
+library(knitr) #library of code that helps make pretty rendered docs
+#install.packages("psych")
+library(psych) #really only here for the skew function for summary stats
+#install.packages("tidyverse")
+library(tidyverse) #dplyr, ggplot, and a bunch of other useful libraries
+#install.packages("gt")
+library(gt) #to make pretty looking summary tables
 
 # Set your ggplot theme
 my_theme <- theme_minimal() +
@@ -46,7 +51,9 @@ egrid2021 <- readxl::read_xlsx(path = "./Data/Raw/eGRID2021_data.xlsx",
 #eGRID is a huge dataset with several data fields and we will only be using a subset of them.
 #so this next line is to subset the database and select only those fields that we will be working with.
 egrid_subset <- egrid2021 %>%
-  select(PSTATABB, STNAMEPCAP, STNGENAN, STNOXAN, STSO2AN, STCO2AN, STCO2EQA, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF)
+  select(PSTATABB, STNAMEPCAP, STNGENAN, STNOXAN, STSO2AN, STCO2AN,
+         STCO2EQA, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY,
+         STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF, STGENATR, STGENATN)
 
 #Creating a new blank column to represent the region that each state is from
 #based on the classification system used by Bureau of Economic Analysis
@@ -76,10 +83,9 @@ egrid_subset$Region[egrid_subset$PSTATABB %in% RockyMountain] <- "Rocky Mountain
 egrid_subset$Region[egrid_subset$PSTATABB %in% FarWest] <- "Far West"
 egrid_subset$Region[egrid_subset$PSTATABB %in% NonContiguous] <- "Non-Contiguous"
 
-egrid_subset$Region == "blank" #verifying that all states have been categorised
+egrid_subset$Region == "blank" #verifying that all states have been categorized
 
-write.csv(egrid_subset, file = "")
-
+write.csv(egrid_subset, file = "./Data/Processed/egrid2021_st21_processed.csv")
 
 ```
 
@@ -93,21 +99,124 @@ This project aims to use e-GRID 2021 (published January,2023) to answer the foll
 2. What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
 3. Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators. 
 4. Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
+5. Is there correlation between energy generators and pollutants emitted? 
 
 These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the e-GRID dataset that are not part of mainland USA.
 
 \newpage
 
 # Dataset Information
-The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehensive source of data published by the Environment Protection Agency of the US Government.  This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. It includes emissions, emission rates, generation, heat input, resource mix, and many other attributes. eGRID is typically used for greenhouse gas registries and inventories, carbon footprints, consumer information disclosure, emission inventories and standards, power market changes, and avoided emission estimates.In our project we have used the e-Grid 2021 dataset which was released on January 30th, 2023. 
+The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehensive source of data published by the Environment Protection Agency of the US Government.  This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. It includes emissions, emission rates, generation, heat input, resource mix, and many other attributes. eGRID is typically used for greenhouse gas registries and inventories, carbon footprints, consumer information disclosure, emission inventories and standards, power market changes, and avoided emission estimates.In our project we have used the e-Grid 2021 data-set which was released on January 30th, 2023. 
+
+Below are some summary statistics of the installed capacity and annual generation per region, pollutants and their CO2 equivalents per region, and lastly about the distribution of annual generation across different renewable and non-renewable sources of energy.
+
+\newpage
 
 
 # Exploratory Analysis 
 
-```{r summary.stats}
+```{r summary.stats, include=FALSE}
+
+#summary stats of total nameplate capacity and annual generation per region
+summary.plants <- egrid_subset %>%
+  select(Region, STNAMEPCAP, STNGENAN) %>%
+  rename("State nameplate capacity (MW)" = STNAMEPCAP,
+         "State annual net generation (MWh)" = STNGENAN) %>%
+  pivot_longer(cols = c("State nameplate capacity (MW)",
+                        "State annual net generation (MWh)"),
+               names_to = "variable", values_to = "value") %>%
+  group_by(Region, variable) %>%
+  summarise(obs = length(value[!is.na(value)]),
+            min = round(min(value, na.rm = TRUE), 2),
+            max = round(max(value, na.rm = TRUE), 2),
+            mean = round(mean(value, na.rm =TRUE), 2),
+            median = round(median(value, na.rm =TRUE), 2),
+            sd = round(sd(value, na.rm =TRUE), 2),
+            skewness = round(skew(value,na.rm = TRUE), 2))
+
+#summary stats of region-wise emission of different pollutants and the CO2 equivalents
+ 
+summary.pollution <- egrid_subset %>%
+  select(Region, STNOXAN, STSO2AN, STCO2AN, STCO2EQA) %>%
+  rename("State annual NOx emissions (tons)" = STNOXAN,
+         "State annual SO2 emissions (tons)" = STSO2AN,
+         "State annual CO2 emissions (tons)" = STCO2AN,
+         "State annual CO2 equivalent emissions (tons)" = STCO2EQA) %>%
+  pivot_longer(cols = c("State annual NOx emissions (tons)",
+                        "State annual SO2 emissions (tons)",
+                        "State annual CO2 emissions (tons)",
+                        "State annual CO2 equivalent emissions (tons)"),
+               names_to = "variable", values_to = "value") %>%
+  group_by(Region, variable) %>%
+  summarise(obs = length(value[!is.na(value)]),
+            min = round(min(value, na.rm = TRUE), 2),
+            max = round(max(value, na.rm = TRUE), 2),
+            mean = round(mean(value, na.rm = TRUE), 2),
+            median = round(median(value, na.rm=TRUE), 2),
+            sd = round(sd(value, na.rm=TRUE), 2),
+            skewness = round(skew(value, na.rm = TRUE), 2))
+
+#summary stats of region-wise breakdown of generation by fuel type
+summary.fuels <- egrid_subset %>%
+  select(Region, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY,
+         STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF) %>%
+  rename("State annual coal net generation (MWh)" = STGENACL,
+         "State annual oil net generation (MWh)" = STGENAOL,
+         "State annual gas net generation (MWh)" = STGENAGS,
+         "State annual nuclear net generation (MWh)" = STGENANC,
+         "State annual hydro net generation (MWh)" = STGENAHY,
+         "State annual biomass net generation (MWh)" = STGENABM,
+         "State annual wind net generation (MWh)" = STGENAWI,
+         "State annual solar net generation (MWh)" = STGENASO,
+         "State annual geothermal net generation (MWh)" = STGENAGT,
+         "State annual other fossil net generation (MWh)" = STGENAOF) %>%
+  pivot_longer(cols = c("State annual coal net generation (MWh)",
+                        "State annual oil net generation (MWh)",
+                        "State annual gas net generation (MWh)",
+                        "State annual nuclear net generation (MWh)",
+                        "State annual hydro net generation (MWh)",
+                        "State annual biomass net generation (MWh)",
+                        "State annual wind net generation (MWh)",
+                        "State annual solar net generation (MWh)",
+                        "State annual geothermal net generation (MWh)",
+                        "State annual other fossil net generation (MWh)"),
+               names_to = "variable", values_to = "value") %>%
+  group_by(Region, variable) %>%
+  summarise(obs = length(value[!is.na(value)]),
+            min = round(min(value, na.rm = TRUE), 2),
+            max = round(max(value, na.rm = TRUE), 2),
+            mean = round(mean(value, na.rm=TRUE), 2),
+            median = round(median(value, na.rm=TRUE), 2),
+            sd = round(sd(value, na.rm=TRUE), 2),
+            skewness = round(skew(value, na.rm = TRUE), 2))
 
 ```
 
+```{r summary.tables, include=FALSE}
+summary.table.plants <- summary.plants %>%
+  gt() %>%
+    
+    tab_options(table.width = pct(95)) %>%
+    cols_width(c(variable)~ px(200),
+               everything()~ px(120) )%>%
+  tab_header(
+    title = md("Table 1: Summary Statistics for Variables per Region"))%>%
+  fmt_passthrough (columns=c(variable)) %>%
+  
+  fmt_number(columns=c(obs), decimals=0) %>%
+  fmt_number(
+  columns = 3:7,
+    rows = all(),
+    n_sigfig = 3,
+    sep_mark = ",") %>%
+  cols_label(variable="Variable",
+    obs = "Observations",
+    mean = "Mean",
+    median="Median",
+    sd = "Standard Deviation"
+  )
+#summary.table.plants
+```
 
 \newpage
 
@@ -128,9 +237,47 @@ The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehens
 
 ```
 
+
 ## Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
 ```{r}
+# Boxplot
+ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
+  geom_boxplot()
 
+ggplot(egrid_subset, aes(x = Region, y = STSO2AN)) + 
+  geom_boxplot()
+
+ggplot(egrid_subset, aes(x = Region, y = STCO2EQA)) + 
+  geom_boxplot()
+
+ggplot(egrid_subset, aes(x = Region, y = STNOXAN)) + 
+  geom_boxplot()
+
+
+ggplot(egrid_subset, aes(x = Region, y = STGENASO)) + 
+  geom_boxplot()
+
+
+```
+
+## Question 5: Is there correlation between energy generators and pollutants emitted? 
+Ho: There is no correlation between energy generators and pollutants emitted
+H1: There is correlation between energy generators and pollutants emitted
+
+```{r}
+#T.Test
+
+T_GENOX <- lm(egrid_subset$STNGENAN ~ egrid_subset$STNOXAN)
+summary(T_GENOX)
+
+T_GESO2 <-lm(egrid_subset$STNGENAN ~ egrid_subset$STSO2AN)
+summary(T_GESO2)
+
+T_GECO2 <- lm(egrid_subset$STNGENAN ~ egrid_subset$STCO2AN)
+summary(T_GECO2)
+
+T_GECO2EQA <- lm(egrid_subset$STNGENAN ~ egrid_subset$STCO2EQA)
+summary(T_GECO2EQA)
 ```
 
 
