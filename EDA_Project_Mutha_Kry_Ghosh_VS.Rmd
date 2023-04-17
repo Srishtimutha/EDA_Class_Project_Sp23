@@ -20,12 +20,15 @@ fig_caption: true
 # Set your working directory
 getwd()
 # Load your packages
-install.packages("knitr")
-library(knitr)
-install.packages("psych")
-library(psych)
-install.packages("tidyverse")
-library(tidyverse)
+
+#install.packages("knitr")
+library(knitr) #library of code that helps make pretty rendered docs
+#install.packages("psych")
+library(psych) #really only here for the skew function for summary stats
+#install.packages("tidyverse")
+library(tidyverse) #dplyr, ggplot, and a bunch of other useful libraries
+#install.packages("gt")
+library(gt) #to make pretty looking summary tables
 
 # Set your ggplot theme
 my_theme <- theme_minimal() +
@@ -48,7 +51,9 @@ egrid2021 <- readxl::read_xlsx(path = "./Data/Raw/eGRID2021_data.xlsx",
 #eGRID is a huge dataset with several data fields and we will only be using a subset of them.
 #so this next line is to subset the database and select only those fields that we will be working with.
 egrid_subset <- egrid2021 %>%
-  select(PSTATABB, STNAMEPCAP, STNGENAN, STNOXAN, STSO2AN, STCO2AN, STCO2EQA, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF, STGENATR, STGENATN)
+  select(PSTATABB, STNAMEPCAP, STNGENAN, STNOXAN, STSO2AN, STCO2AN,
+         STCO2EQA, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY,
+         STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF, STGENATR, STGENATN)
 
 #Creating a new blank column to represent the region that each state is from
 #based on the classification system used by Bureau of Economic Analysis
@@ -88,18 +93,11 @@ write.csv(egrid_subset, file = "./Data/Processed/egrid2021_st21_processed.csv")
 # Rationale and Research Questions
 The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. This project aims to use eGRID 2021 (which was published this year in 2023) to answer the following research questions:
 
-<<<<<<< HEAD
-1. What is the distribution across the US of electricity generation from renewable and non-renewable energy sources?
-2. What is the distribution of supply from the different renewable energy sources?
-3. Some summary statistics of generators of all generators, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted;
-4. Emissions from different states/regions from these generators
-=======
 1. What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 2. What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
 3. Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators. 
 4. Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
 5. Is there correlation between energy generators and pollutants emitted? 
-
 
 These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the e-GRID dataset that are not part of mainland USA.
 
@@ -108,11 +106,13 @@ These analyses will be performed by aggregating the states into categories as do
 # Dataset Information
 The Environment Protection Agency of the US Government publishes a large dataset called the Emissions and Generation Resource Integrated Database (eGRID for short). This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually.
 
+Below are some summary statistics of the installed capacity and annual generation per region, pollutants and their CO2 equivalents per region, and lastly about the distribution of annual generation across different renewable and non-renewable sources of energy.
+
 \newpage
 
 # Exploratory Analysis 
 
-```{r summary.stats}
+```{r summary.stats, include=FALSE}
 
 #summary stats of total nameplate capacity and annual generation per region
 summary.plants <- egrid_subset %>%
@@ -124,22 +124,97 @@ summary.plants <- egrid_subset %>%
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
-            min = round(min(value, na.rm = TRUE), 3),
-            max = round(max(value, na.rm = TRUE), 3),
-            mean = round(mean(value, na.rm=TRUE), 3),
-            median = round(median(value, na.rm=TRUE), 3),
-            sd = round(sd(value, na.rm=TRUE), 3),
-            skewness = round(skew(value,na.rm = TRUE), 3))
-summary.plants
+            min = round(min(value, na.rm = TRUE), 2),
+            max = round(max(value, na.rm = TRUE), 2),
+            mean = round(mean(value, na.rm=TRUE), 2),
+            median = round(median(value, na.rm=TRUE), 2),
+            sd = round(sd(value, na.rm=TRUE), 2),
+            skewness = round(skew(value,na.rm = TRUE), 2))
 
 #summary stats of region-wise emission of different pollutants and the CO2 equivalents
-STNOXAN, STSO2AN, STCO2AN, STCO2EQA, 
-
+ 
+summary.pollution <- egrid_subset %>%
+  select(Region, STNOXAN, STSO2AN, STCO2AN, STCO2EQA) %>%
+  rename("State annual NOx emissions (tons)" = STNOXAN,
+         "State annual SO2 emissions (tons)" = STSO2AN,
+         "State annual CO2 emissions (tons)" = STCO2AN,
+         "State annual CO2 equivalent emissions (tons)" = STCO2EQA) %>%
+  pivot_longer(cols = c("State annual NOx emissions (tons)",
+                        "State annual SO2 emissions (tons)",
+                        "State annual CO2 emissions (tons)",
+                        "State annual CO2 equivalent emissions (tons)"),
+               names_to = "variable", values_to = "value") %>%
+  group_by(Region, variable) %>%
+  summarise(obs = length(value[!is.na(value)]),
+            min = round(min(value, na.rm = TRUE), 2),
+            max = round(max(value, na.rm = TRUE), 2),
+            mean = round(mean(value, na.rm=TRUE), 2),
+            median = round(median(value, na.rm=TRUE), 2),
+            sd = round(sd(value, na.rm=TRUE), 2),
+            skewness = round(skew(value, na.rm = TRUE), 2))
 
 #summary stats of region-wise breakdown of generation by fuel type
-STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY, STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF
+summary.fuels <- egrid_subset %>%
+  select(Region, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY,
+         STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF) %>%
+  rename("State annual coal net generation (MWh)" = STGENACL,
+         "State annual oil net generation (MWh)" = STGENAOL,
+         "State annual gas net generation (MWh)" = STGENAGS,
+         "State annual nuclear net generation (MWh)" = STGENANC,
+         "State annual hydro net generation (MWh)" = STGENAHY,
+         "State annual biomass net generation (MWh)" = STGENABM,
+         "State annual wind net generation (MWh)" = STGENAWI,
+         "State annual solar net generation (MWh)" = STGENASO,
+         "State annual geothermal net generation (MWh)" = STGENAGT,
+         "State annual other fossil net generation (MWh)" = STGENAOF) %>%
+  pivot_longer(cols = c("State annual coal net generation (MWh)",
+                        "State annual oil net generation (MWh)",
+                        "State annual gas net generation (MWh)",
+                        "State annual nuclear net generation (MWh)",
+                        "State annual hydro net generation (MWh)",
+                        "State annual biomass net generation (MWh)",
+                        "State annual wind net generation (MWh)",
+                        "State annual solar net generation (MWh)",
+                        "State annual geothermal net generation (MWh)",
+                        "State annual other fossil net generation (MWh)"),
+               names_to = "variable", values_to = "value") %>%
+  group_by(Region, variable) %>%
+  summarise(obs = length(value[!is.na(value)]),
+            min = round(min(value, na.rm = TRUE), 2),
+            max = round(max(value, na.rm = TRUE), 2),
+            mean = round(mean(value, na.rm=TRUE), 2),
+            median = round(median(value, na.rm=TRUE), 2),
+            sd = round(sd(value, na.rm=TRUE), 2),
+            skewness = round(skew(value, na.rm = TRUE), 2))
 
 ```
+
+```{r summary.tables, include=FALSE}
+summary.table.plants <- summary.plants %>%
+  gt() %>%
+    
+    tab_options(table.width = pct(95)) %>%
+    cols_width(c(variable)~ px(200),
+               everything()~ px(120) )%>%
+  tab_header(
+    title = md("Table 1: Summary Statistics for Variables per Region"))%>%
+  fmt_passthrough (columns=c(variable)) %>%
+  
+  fmt_number(columns=c(obs), decimals=0) %>%
+  fmt_number(
+  columns = 3:7,
+    rows = all(),
+    n_sigfig = 3,
+    sep_mark = ",") %>%
+  cols_label(variable="Variable",
+    obs = "Observations",
+    mean = "Mean",
+    median="Median",
+    sd = "Standard Deviation"
+  )
+#summary.table.plants
+```
+
 
 
 \newpage
