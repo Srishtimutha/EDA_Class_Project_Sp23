@@ -15,18 +15,43 @@ fig_caption: true
 \listoffigures 
 \newpage
 
+```{r installing packages, include=FALSE}
+if(!require(knitr)) {
+  install.packages("knitr")
+  require(knitr)
+}
+
+if(!require(psych)) {
+  install.packages("psych")
+  require(psych)
+}
+
+if(!require(tidyverse)) {
+  install.packages("tidyverse")
+  require(tidyverse)
+}
+
+if(!require(gt)) {
+  install.packages("gt")
+  require(gt)
+}
+#dependency of gt
+if(!require(xfun)) {
+  install.packages("xfun")
+  require(xfun)
+}
+
+
+```
+
+
 ```{r setup, include=FALSE}
 # Set your working directory
 getwd()
 # Load your packages
-
-#install.packages("knitr")
 library(knitr) #library of code that helps make pretty rendered docs
-#install.packages("psych")
 library(psych) #really only here for the skew function for summary stats
-#install.packages("tidyverse")
 library(tidyverse) #dplyr, ggplot, and a bunch of other useful libraries
-#install.packages("gt")
 library(gt) #to make pretty looking summary tables
 
 # Set your ggplot theme
@@ -204,7 +229,7 @@ summary.table.plants <- summary.plants %>%
   tab_header(
     title = md("Table 1: Summary Statistics for Variables per Region")) %>%
 
-  fmt_passthrough (columns=c(variable)) %>%
+  fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
 
   fmt_number(
@@ -215,9 +240,12 @@ summary.table.plants <- summary.plants %>%
 
   cols_label(variable="Variable",
     obs = "Observations",
+    min = "Minimum",
+    max = "Maximum",
     mean = "Mean",
     median="Median",
-    sd = "Standard Deviation")
+    sd = "Standard Deviation",
+    skewness = "Skewness")
 
 summary.table.plants
 
@@ -251,14 +279,14 @@ colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh
 ```{r Research.Question.2, include=FALSE}
 
 distribution_rene<-aggregate(cbind(STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT) ~ Region,data=egrid_subset, FUN=sum)
-print(distribution_rene)
-
 colnames(distribution_rene) <- c("Region","Hydro-power generation (MWh)","Biomass generation (MWh) ","Wind generation (MWh)","Solar generation (MWh)","Geothermal generation (MWh)")
+
+table.annualgen <- kable(distribution_rene, align = c("l", rep("c", 7)))
 
 distribution_nonrene<-aggregate(cbind(STGENACL,STGENAOL,STGENAGS,STGENANC) ~ Region,data=egrid_subset, FUN=sum)
 print(distribution_nonrene)
 
-colnames(distribution_nonrene) <- c("Region","Coal generation(MWh)","Oil generation(MWh)","Natural Gas generation(MWh)","Nuclear generation(MWh)")
+colnames(distribution_nonrene) <- c("Region","Coal generation (MWh)","Oil generation (MWh)","Natural Gas generation (MWh)","Nuclear generation (MWh)")
 
 
 ```
