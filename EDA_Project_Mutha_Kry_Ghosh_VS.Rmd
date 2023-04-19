@@ -235,7 +235,7 @@ summary.table.plants <- summary.plants %>%
   fmt_number(
     columns = 3:7,
     rows = all(),
-    n_sigfig = 3,
+    n_sigfig = 1,
     sep_mark = ",") %>%
 
   cols_label(variable="Variable",
@@ -249,10 +249,63 @@ summary.table.plants <- summary.plants %>%
 
 summary.table.plants
 
-# summary.table.plants <- summary.plants %>%
-#   group_by(variable) %>%
-#   kable(align = c("l", rep("c", 8)))
+summary.table.pollution <- summary.pollution %>%
+  gt() %>%
+    tab_options(table.width = pct(95)) %>%
+    cols_width(c(variable)~ px(200),
+               everything()~ px(120) )%>%
 
+  tab_header(
+    title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
+
+  fmt_passthrough (columns=c(Region)) %>%
+  fmt_number(columns=c(obs), decimals=0) %>%
+
+  fmt_number(
+    columns = 3:7,
+    rows = all(),
+    n_sigfig = 1,
+    sep_mark = ",") %>%
+
+  cols_label(variable="Variable",
+    obs = "Observations",
+    min = "Minimum",
+    max = "Maximum",
+    mean = "Mean",
+    median="Median",
+    sd = "Standard Deviation",
+    skewness = "Skewness")
+
+summary.table.pollution
+
+summary.table.fuels <- summary.fuels %>%
+  gt() %>%
+    tab_options(table.width = pct(95)) %>%
+    cols_width(c(variable)~ px(200),
+               everything()~ px(120) )%>%
+
+  tab_header(
+    title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
+
+  fmt_passthrough (columns=c(Region)) %>%
+  fmt_number(columns=c(obs), decimals=0) %>%
+
+  fmt_number(
+    columns = 3:7,
+    rows = all(),
+    n_sigfig = 1,
+    sep_mark = ",") %>%
+
+  cols_label(variable="Variable",
+    obs = "Observations",
+    min = "Minimum",
+    max = "Maximum",
+    mean = "Mean",
+    median="Median",
+    sd = "Standard Deviation",
+    skewness = "Skewness")
+
+summary.table.fuels
 
 ```
 
@@ -263,10 +316,10 @@ summary.table.plants
 ```{r Research.Question.1, include=FALSE}
 
 generation_rene<-aggregate(egrid_subset$STGENATR, by=list(egrid_subset$Region), FUN=sum)
-print(generation_rene)
+generation_rene
 
 generation_nonrene<-aggregate(egrid_subset$STGENATN , by=list(egrid_subset$Region), FUN=sum)
-print(generation_nonrene)
+generation_nonrene
 
 colnames(generation_rene) <- c("Region", "Total renewable generation (MWh)")
 colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh)")
@@ -321,20 +374,24 @@ pollutants.plot
 ```{r Research Question 4}
 # Boxplot
 ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
-  geom_boxplot()
+  geom_boxplot() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 
 ggplot(egrid_subset, aes(x = Region, y = STSO2AN)) + 
-  geom_boxplot()
+  geom_boxplot() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 
 ggplot(egrid_subset, aes(x = Region, y = STCO2EQA)) + 
-  geom_boxplot()
+  geom_boxplot() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 
 ggplot(egrid_subset, aes(x = Region, y = STNOXAN)) + 
-  geom_boxplot()
-
+  geom_boxplot() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 
 ggplot(egrid_subset, aes(x = Region, y = STGENASO)) + 
-  geom_boxplot()
+  geom_boxplot() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 
 
 ```
