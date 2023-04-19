@@ -327,6 +327,8 @@ colnames(generation_rene) <- c("Region", "Total renewable generation (MWh)")
 colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh)")
 
 #bar plot
+<<<<<<< HEAD
+=======
 energy.sources <- merge(generation_rene, generation_nonrene) %>%
   pivot_longer(cols = c("Total renewable generation (MWh)", "Total non-renewable generation (MWh)"),
                names_to = "source",
@@ -350,6 +352,7 @@ ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
        bg = '#f6efdcff',
        device = 'png')
 
+>>>>>>> c8dbaadde83c091ef5c92f938f98c13816e04bf5
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
@@ -364,6 +367,7 @@ distribution_nonrene<-aggregate(cbind(STGENACL,STGENAOL,STGENAGS,STGENANC) ~ Reg
 print(distribution_nonrene)
 
 colnames(distribution_nonrene) <- c("Region","Coal generation (MWh)","Oil generation (MWh)","Natural Gas generation (MWh)","Nuclear generation (MWh)")
+
 
 
 ```
