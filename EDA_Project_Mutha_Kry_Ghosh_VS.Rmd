@@ -327,6 +327,10 @@ colnames(generation_rene) <- c("Region", "Total renewable generation (MWh)")
 colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh)")
 
 #bar plot
+energy.sources.plot <- merge(generation_rene, generation_nonrene) %>%
+  pivot_longer(cols = c("Total renewable generation (MWh)", "Total non-renewable generation (MWh)"),
+               names_to = "Energy Source",
+               values_to = "values")
 
 ```
 
