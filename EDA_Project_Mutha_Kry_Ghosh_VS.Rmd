@@ -344,6 +344,11 @@ energy.sources.plot <- energy.sources %>%
          y = "Total Power Generation (MWh)") +
     theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 energy.sources.plot
+ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
+       plot = pollutants.plot,
+       dpi = 'retina',
+       bg = '#f6efdcff',
+       device = 'png')
 
 ```
 
