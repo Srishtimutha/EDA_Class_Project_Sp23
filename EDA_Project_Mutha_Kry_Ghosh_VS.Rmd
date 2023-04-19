@@ -327,8 +327,7 @@ colnames(generation_rene) <- c("Region", "Total renewable generation (MWh)")
 colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh)")
 
 #bar plot
-<<<<<<< HEAD
-=======
+
 energy.sources <- merge(generation_rene, generation_nonrene) %>%
   pivot_longer(cols = c("Total renewable generation (MWh)", "Total non-renewable generation (MWh)"),
                names_to = "source",
@@ -352,7 +351,6 @@ ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
        bg = '#f6efdcff',
        device = 'png')
 
->>>>>>> c8dbaadde83c091ef5c92f938f98c13816e04bf5
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
@@ -415,7 +413,7 @@ CO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 CO2_Plot
 ggsave(filename = "./Plots/Q4_CO2_Plot.png",
-       plot = pollutants.plot,
+       plot = CO2_Plot,
        dpi = 'retina',
        bg = '#f6efdcff',
        device = 'png')
@@ -428,7 +426,7 @@ SO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STSO2AN)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 SO2_Plot
 ggsave(filename = "./Plots/Q4_SO2_Plot.png",
-       plot = pollutants.plot,
+       plot = SO2_Plot,
        dpi = 'retina',
        bg = '#f6efdcff',
        device = 'png')
@@ -441,7 +439,7 @@ NOX_Plot<-ggplot(egrid_subset, aes(x = Region, y = STNOXAN)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 NOX_Plot
 ggsave(filename = "./Plots/Q4_NOX_Plot.png",
-       plot = pollutants.plot,
+       plot = NOX_Plot,
        dpi = 'retina',
        bg = '#f6efdcff',
        device = 'png')
@@ -454,7 +452,7 @@ CO2EQA_Plot<-ggplot(egrid_subset, aes(x = Region, y = STCO2EQA)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 CO2EQA_Plot
 ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
-       plot = pollutants.plot,
+       plot = CO2EQA_Plot,
        dpi = 'retina',
        bg = '#f6efdcff',
        device = 'png')
