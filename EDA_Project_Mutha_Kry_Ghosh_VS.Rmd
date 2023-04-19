@@ -1,5 +1,5 @@
 ---
-title: "Analysis of power generation across USA"
+title: "Analysis of power generation across USA in 2021"
 author: "Srishti Mutha, Sokna Kry, Samriddha Ghosh, Nagarajan Vaidya Subramanian"
 date: "Spring 2023"
 output:
@@ -327,6 +327,27 @@ colnames(generation_rene) <- c("Region", "Total renewable generation (MWh)")
 colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh)")
 
 #bar plot
+<<<<<<< HEAD
+=======
+energy.sources <- merge(generation_rene, generation_nonrene) %>%
+  pivot_longer(cols = c("Total renewable generation (MWh)", "Total non-renewable generation (MWh)"),
+               names_to = "source",
+               values_to = "values") %>%
+  mutate(source = as.factor(source))
+
+energy.sources.plot <- energy.sources %>%
+    ggplot(mapping = aes(x = Region,
+                         y = values,
+                         fill = source)) +
+    geom_bar(stat = "identity",
+             position = 'dodge') +
+    labs(title = "Distribution of Energy Sources by Region in 2021",
+         x = "Regions",
+         y = "Total Power Generation (MWh)") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+energy.sources.plot
+
+>>>>>>> c8dbaadde83c091ef5c92f938f98c13816e04bf5
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
