@@ -3,10 +3,12 @@ title: "Analysis of power generation across USA"
 author: "Srishti Mutha, Sokna Kry, Samriddha Ghosh, Nagarajan Vaidya Subramanian"
 date: "Spring 2023"
 output:
+  html_document:
+    df_print: paged
   word_document: default
   pdf_document: default
 geometry: margin=2.54cm
-fig_caption: true
+fig_caption: yes
 ---
 \tableofcontents 
 \newpage
@@ -226,8 +228,8 @@ summary.table.plants <- summary.plants %>%
     cols_width(c(variable)~ px(200),
                everything()~ px(120) )%>%
 
-  tab_header(
-    title = md("Table 1: Summary Statistics for Variables per Region")) %>%
+  # tab_header(
+  #   title = md("Table 1: Summary Statistics for Variables per Region")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -255,8 +257,8 @@ summary.table.pollution <- summary.pollution %>%
     cols_width(c(variable)~ px(200),
                everything()~ px(120) )%>%
 
-  tab_header(
-    title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
+  # tab_header(
+  #   title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -284,8 +286,8 @@ summary.table.fuels <- summary.fuels %>%
     cols_width(c(variable)~ px(200),
                everything()~ px(120) )%>%
 
-  tab_header(
-    title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
+  # tab_header(
+  #   title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -362,36 +364,74 @@ pollutants.plot <-
                        fill = variable)) +
     geom_bar(stat = "identity",
              position = position_stack(reverse = TRUE)) +
-    labs(x = "Regions",
+    labs(title = "Total CO2 and CO2 eq emissions across regions",
+         x = "Regions",
          y = "Emissions (tons)",
          fill = "Emission category") +
     theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 pollutants.plot
+ggsave(filename = "./Plots/Q3_pollutants_plot.png",
+       plot = pollutants.plot,
+       dpi = 'retina',
+       bg = '#f6efdcff',
+       device = 'png')
 ```
 
 
 ## Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
-```{r Research Question 4}
+```{r Research Question 4, echo=FALSE, fig.align='center'}
 # Boxplot
-ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
-  geom_boxplot() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+CO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
+  geom_boxplot()+
+  labs (title= expression(paste("CO"[2]~"Emissions in each Region in the USA in 2021")), 
+        y= expression(paste("CO"[2]~"Emissions (tons)")),
+        x= "Regions") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+CO2_Plot
+ggsave(filename = "./Plots/Q4_CO2_Plot.png",
+       plot = pollutants.plot,
+       dpi = 'retina',
+       bg = '#f6efdcff',
+       device = 'png')
 
-ggplot(egrid_subset, aes(x = Region, y = STSO2AN)) + 
-  geom_boxplot() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+SO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STSO2AN)) + 
+  geom_boxplot()+
+  labs (title= expression(paste("SO"[2]~"Emissions in each Region in the USA in 2021")), 
+        y= expression(paste("SO"[2]~"Emissions (tons)")),
+        x= "Regions") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+SO2_Plot
+ggsave(filename = "./Plots/Q4_SO2_Plot.png",
+       plot = pollutants.plot,
+       dpi = 'retina',
+       bg = '#f6efdcff',
+       device = 'png')
 
-ggplot(egrid_subset, aes(x = Region, y = STCO2EQA)) + 
-  geom_boxplot() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+NOX_Plot<-ggplot(egrid_subset, aes(x = Region, y = STNOXAN)) + 
+  geom_boxplot()+
+  labs (title= expression(paste("NO"[X]~"Emissions in each Region in the USA in 2021")), 
+        y= expression(paste("NO"[X]~"Emissions (tons)")),
+        x= "Regions")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+NOX_Plot
+ggsave(filename = "./Plots/Q4_NOX_Plot.png",
+       plot = pollutants.plot,
+       dpi = 'retina',
+       bg = '#f6efdcff',
+       device = 'png')
 
-ggplot(egrid_subset, aes(x = Region, y = STNOXAN)) + 
-  geom_boxplot() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
-
-ggplot(egrid_subset, aes(x = Region, y = STGENASO)) + 
-  geom_boxplot() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+CO2EQA_Plot<-ggplot(egrid_subset, aes(x = Region, y = STCO2EQA)) + 
+  geom_boxplot()+
+  labs (title= expression(paste("CO"[2]~"EQ Emissions in each Region in the USA in 2021")), 
+        y= expression(paste("CO"[2]~"EQ Emissions (tons)")),
+        x= "Regions")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+CO2EQA_Plot
+ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
+       plot = pollutants.plot,
+       dpi = 'retina',
+       bg = '#f6efdcff',
+       device = 'png')
 
 
 ```
@@ -423,6 +463,20 @@ summary(T_GECO2EQA)
 
 
 \newpage
+
+# Appendix
+
+```{r summary.table.plants, echo=FALSE, fig.align='center', fig.cap="Table 1: Summary Statistics for Variables per Region"}
+summary.table.plants
+```
+
+```{r summary.table.pollution, echo=FALSE, fig.align='center', fig.cap="Table 2: Summary Statistics of Pollutants Emitted per Region"}
+summary.table.pollution
+```
+
+```{r summary.table.fuels, echo=FALSE, fig.align='center', fig.cap="Table 3: Summary Statistics of Energy Sources Per Region"}
+summary.table.fuels
+```
 
 # References
 <add references here if relevant, otherwise delete this section> 
