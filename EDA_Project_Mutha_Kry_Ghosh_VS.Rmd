@@ -515,7 +515,7 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
 #variables to consider: aqi, mortality rate, gdp_pc, Renewable energy consumption %
 #aqi ~ renewable energy % (from separate datasets)
 #Ask Luana for other ideas for linear models, what the independent and dependent variables and controls
-#mortality rate ~ aqi + gdp_pc + Renewable energy consumption % + 
+#mortality rate ~ aqi + median household income + Renewable energy consumption % + education + sex ratio
 ```
 
 
