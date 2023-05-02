@@ -120,7 +120,18 @@ egrid_subset$Region == "blank" #verifying that all states have been categorized
 
 ```{r adding and wrangling new datasets, include=FALSE}
 aqi <- readxl::read_xlsx(path = './Data/Raw/US EPA - Annual AQI by County 2021.xlsx',
-                         skip = 1)
+                         skip = 1) %>%
+  rename(medAQI = 'Median AQI') %>%
+  group_by(State) %>%
+  summarise(medianAQI = median(medAQI))
+
+medianHHI <- readxl::read_xlsx(path = './Data/Raw/US Census - Median Household Income 2020.xlsx',
+                               sheet = 'Data') %>%
+  rename('Criterion' = '...1') %>%
+  subset(Criterion == "Median income (dollars)") %>%
+  pivot_longer(cols = colnames(),
+               names_to = 'States',
+               values_to = 'median income')
 ```
 
 
@@ -322,18 +333,18 @@ summary.table.fuels
 # Analysis
 ## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 
-The first research question focuses on the distribution of electricity generation from renewable and non-renewable energy sources among the Bureau of Economic Analysis (BEA) regions in the United States.The BEA divides the United States into eight regions, which are:
+The first research question focuses on the distribution of electricity generation from renewable and non-renewable energy sources among the Bureau of Economic Analysis (BEA) regions in the United States. The BEA divides the United States into eight regions, which are:
 
-a)New England
-b)Mideast
-c)Great Lakes
-d)Plains
-e)Southeast
-f)Southwest
-g)Rocky Mountain
-h)Far West
+a) New England
+b) Mideast
+c) Great Lakes
+d) Plains
+e) Southeast
+f) Southwest
+g) Rocky Mountain
+h) Far West
 
-The purpose of this information is to gain a deeper understanding of the power production in different regions of United States and the types of energy sources used. This data can aid  policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
+The purpose of this information is to gain a deeper understanding of the power production in different regions of United States and the types of energy sources used. This data can aid policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
 
 ```{r Research.Question.1, include=FALSE}
 
