@@ -181,7 +181,7 @@ dataset_final <- merge(stateabb, egrid_subset,
 
 
 
-# Rationale and Research Questions
+### Rationale and Research Questions
 The US has been transitioning towards a greater reliance on renewable energy sources such as wind, solar, hydro power and many more technologies. Analyzing the e-Grid data can provide insights into the distribution of clean energy generation across US, performance of these renewable energy sources, their impact on the electricity generation and energy markets throughout USA, and whether they are meeting the expectations of energy companies, policymakers, and consumers. 
 
 This project aims to use e-GRID 2021 (published January 2023) to answer the following research questions:
@@ -196,7 +196,7 @@ These analyses will be performed by aggregating the states into categories as do
 
 \newpage
 
-# Dataset Information
+### Dataset Information
 The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehensive source of data published by the Environment Protection Agency of the US Government.  This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. It includes emissions, emission rates, generation, heat input, resource mix, and many other attributes. eGRID is typically used for greenhouse gas registries and inventories, carbon footprints, consumer information disclosure, emission inventories and standards, power market changes, and avoided emission estimates.In our project we have used the e-Grid 2021 data-set which was released on January 30th, 2023. 
 
 Below are some summary statistics of the installed capacity and annual generation per region, pollutants and their CO2 equivalents per region, and lastly about the distribution of annual generation across different renewable and non-renewable sources of energy.
@@ -204,7 +204,7 @@ Below are some summary statistics of the installed capacity and annual generatio
 \newpage
 
 
-# Exploratory Analysis 
+### Exploratory Analysis 
 
 ```{r summary.stats, include=FALSE}
 
@@ -375,8 +375,8 @@ summary.table.fuels
 
 \newpage
 
-# Analysis
-## Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
+### Analysis
+#### Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 
 The first research question focuses on the distribution of electricity generation from renewable and non-renewable energy sources among the Bureau of Economic Analysis (BEA) regions in the United States. The BEA divides the United States into eight regions, which are:
 
@@ -431,12 +431,12 @@ ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
 
 ```
 
-```{r Q1plot, echo=FALSE}
+```{r Q1plot, echo=FALSE, fig.align='center'}
 energy.sources.plot
 ```
 
 
-## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
+#### Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
 
 The second research question looks deeper into the distribution of electricity generation from each type of renewable energy source across the Bureau of Economic Analysis (BEA) regions in the United States. Renewable energy sources include solar, wind, hydro, geothermal, and biomass energy.
 
@@ -464,7 +464,7 @@ kable(distribution_rene, align = "c")
 
 ```
 
-## Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
+#### Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
 
 This question delves into greenhouse gas emissions from electricity generators across the Bureau of Economic Analysis (BEA) regions in the United States. Greenhouse gases, such as carbon dioxide, methane, nitrous oxide, sulfur dioxide and many more are released into the atmosphere as a result of the combustion of fossil fuels for electricity generation, which contributes to climate change.
 
@@ -505,10 +505,10 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
 ```
 
 
-## Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
+#### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
 
 
-```{r Research Question 4, echo=FALSE, fig.align='center'}
+```{r Research Question 4, include=FALSE}
 # Boxplot
 CO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
   geom_boxplot()+
@@ -516,7 +516,6 @@ CO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) +
         y= expression(paste("CO"[2]~"Emissions (tons)")),
         x= "Regions") +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
-CO2_Plot
 ggsave(filename = "./Plots/Q4_CO2_Plot.png",
        plot = CO2_Plot,
        dpi = 'retina',
@@ -529,7 +528,6 @@ SO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STSO2AN)) +
         y= expression(paste("SO"[2]~"Emissions (tons)")),
         x= "Regions") +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
-SO2_Plot
 ggsave(filename = "./Plots/Q4_SO2_Plot.png",
        plot = SO2_Plot,
        dpi = 'retina',
@@ -542,7 +540,6 @@ NOX_Plot<-ggplot(egrid_subset, aes(x = Region, y = STNOXAN)) +
         y= expression(paste("NO"[X]~"Emissions (tons)")),
         x= "Regions")+
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
-NOX_Plot
 ggsave(filename = "./Plots/Q4_NOX_Plot.png",
        plot = NOX_Plot,
        dpi = 'retina',
@@ -555,7 +552,6 @@ CO2EQA_Plot<-ggplot(egrid_subset, aes(x = Region, y = STCO2EQA)) +
         y= expression(paste("CO"[2]~"EQ Emissions (tons)")),
         x= "Regions")+
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
-CO2EQA_Plot
 ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
        plot = CO2EQA_Plot,
        dpi = 'retina',
@@ -563,7 +559,15 @@ ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
        device = 'png')
 ```
 
-## Question 5: Is there correlation between energy generators and pollutants emitted? 
+```{r Q4plots, echo=FALSE, fig.align='center'}
+CO2_Plot
+SO2_Plot
+NOX_Plot
+CO2EQA_Plot
+```
+
+
+#### Question 5: Is there correlation between energy generators and pollutants emitted? 
 Ho: There is no correlation between energy generators and pollutants emitted
 Ha: There is correlation between energy generators and pollutants emitted
 
@@ -612,25 +616,21 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
        title = "Linear Regression: Annual Net Energy Generation and NOX Emissions")
 ```
 
-```{r}
-#aqi ~ renewable energy consumption + gdp_pc + 
-#renewable energy consumption ~ gdp_pc
-#variables to consider: aqi, mortality rate, gdp_pc, Renewable energy consumption %
-#aqi ~ renewable energy % (from separate datasets)
-#Ask Luana for other ideas for linear models, what the independent and dependent variables and controls
+```{r linear models, include=FALSE}
 #mortality rate ~ aqi + median household income + Renewable energy consumption % + education + sex ratio
+
 ```
 
 
 \newpage
 
-# Summary and Conclusions
+### Summary and Conclusions
 
 
 
 \newpage
 
-# Appendix
+### Appendix
 
 ```{r summary.table.plants, echo=FALSE, fig.align='center', fig.cap="Table 1: Summary Statistics for Variables per Region"}
 summary.table.plants
@@ -646,7 +646,7 @@ summary.table.fuels
 
 \newpage
 
-# References
+### References
 
 1. https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States
 2. https://www.epa.gov/egrid/download-data
