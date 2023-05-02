@@ -328,7 +328,7 @@ g)Rocky Mountain
 h)Far West
 
 The purpose of this information is to gain a deeper understanding of the power production in different regions of United States and the types of energy sources used. This data can aid  policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
-      In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The annual state generation values were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each region, annually. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
+      In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The state annual generation values were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each region, annually. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
 
 ```{r Research.Question.1, include=FALSE}
 
@@ -370,6 +370,9 @@ ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
 
+The second research question looks deeper into the distribution of electricity generation from each type of renewable energy source across the Bureau of Economic Analysis (BEA) regions in the United States. Renewable energy sources include solar, wind, hydro, geothermal, and biomass energy.
+      The purpose of this question is to gain a better understanding of how different regions in the United States are utilizing various renewable energy sources for electricity generation. The data obtained can be useful in identifying the potential for growth in the use of renewable energy sources in certain regions and identifying areas where investments in renewable energy infrastructure and technology may be needed. It can be crucial data for policymakers to develop policies and regulations that encourage the growth of specific renewable energy across USA. The potential opportunities for growth and expansion of renewable energy plants into regions that have high potential can also be evaluated using this data. Additionally, this information can be useful for identifying regions where investments in renewable energy infrastructure could be profitable. 
+      In order to determine the distribution of electricity generation from each type of renewable energy sources across BEA regions in the US, the states were grouped together based on their respective regions. The state annual generation values for each type of renewable source were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each type of renewable energy source for each region, annually.
 
 ```{r Research.Question.2, include=FALSE}
 
