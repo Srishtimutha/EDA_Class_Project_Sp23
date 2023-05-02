@@ -389,7 +389,6 @@ f) Southwest
 g) Rocky Mountain
 h) Far West
 
-
 The purpose of this information is to gain a deeper understanding of the power production in different regions of United States and the types of energy sources used. This data can aid policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
 
 In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The state annual generation values were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each region, annually. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
@@ -572,6 +571,7 @@ As per our findings, there is a correlation between energy generators and pollut
 
 Through this question we try to find this correlation between energy generators and the pollutants they emit. The information can be used to inform policy decisions related to reducing harmful emissions, such as setting emissions standards or incentives to increase the use of cleaner energy sources. It can also be useful for businesses to evaluate the environmental impact of their operations and to identify opportunities to reduce their carbon footprint. Understanding the correlation between energy generators and pollutants emitted can provide insights into the environmental impact of different types of energy sources and can be used by energy analysts in models for predicting future emissions trends. 
 
+In order to determine the correlation,
 
 Ho: There is no correlation between energy generators and pollutants emitted
 Ha: There is correlation between energy generators and pollutants emitted
