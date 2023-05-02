@@ -507,6 +507,9 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
 
 #### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
 
+The summary statistics on electricity generators across the BEA regions in the United States would cover information such as the type of fuel source used, the nameplate capacity of the generators, the annual net generation of electricity, and the amount of pollutants emitted. The statistical analysis is performed to obtain a comprehensive understanding of the electricity generation infrastructure across different regions in the United States, to facilitate the identification of opportunities for investment in renewable energy infrastructure, evaluate the environmental impact of electricity generation in each region, and to develop policies and regulations that encourage the reduction of harmful emissions.
+      In order to conduct the statistical analysis, 
+
 
 ```{r Research Question 4, include=FALSE}
 # Boxplot
@@ -568,8 +571,13 @@ CO2EQA_Plot
 
 
 #### Question 5: Is there correlation between energy generators and pollutants emitted? 
-Ho: There is no correlation between energy generators and pollutants emitted
-Ha: There is correlation between energy generators and pollutants emitted
+
+As per our findings, there is a correlation between energy generators and pollutants emitted. The type of fuel source used by a generator affects the amount and type of pollutants that are emitted during power generation. Power plants that use unconventional fuels such as coal, oil, and natural gas emit pollutants such as carbon dioxide, methane, sulfur dioxide, nitrogen oxides, and many more, majorly contribute to climate change and air pollution.
+
+Through this question we try to find this correlation between energy generators and the pollutants they emit. The information can be used to inform policy decisions related to reducing harmful emissions, such as setting emissions standards or incentives to increase the use of cleaner energy sources. It can also be useful for businesses to evaluate the environmental impact of their operations and to identify opportunities to reduce their carbon footprint. Understanding the correlation between energy generators and pollutants emitted can provide insights into the environmental impact of different types of energy sources and can be used by energy analysts in models for predicting future emissions trends. 
+
+H~o~: There is no correlation between energy generators and pollutants emitted
+H~a~: There is correlation between energy generators and pollutants emitted
 
 ```{r Research Question 5}
 #T.Test of annual net energy generations and pollutants emitted 
