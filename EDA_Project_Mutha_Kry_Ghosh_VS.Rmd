@@ -389,9 +389,10 @@ f) Southwest
 g) Rocky Mountain
 h) Far West
 
+
 The purpose of this information is to gain a deeper understanding of the power production in different regions of United States and the types of energy sources used. This data can aid policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
 
-In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The annual state generation values were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each region, annually. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
+In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The state annual generation values were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each region, annually. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
 
 ```{r Research.Question.1, include=FALSE}
 
@@ -437,6 +438,11 @@ energy.sources.plot
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
 
+The second research question looks deeper into the distribution of electricity generation from each type of renewable energy source across the Bureau of Economic Analysis (BEA) regions in the United States. Renewable energy sources include solar, wind, hydro, geothermal, and biomass energy.
+
+The purpose of this question is to gain a better understanding of how different regions in the United States are utilizing various renewable energy sources for electricity generation. The data obtained can be useful in identifying the potential for growth in the use of renewable energy sources in certain regions and identifying areas where investments in renewable energy infrastructure and technology may be needed. It can be crucial data for policymakers to develop policies and regulations that encourage the growth of specific renewable energy across USA. The potential opportunities for growth and expansion of renewable energy plants into regions that have high potential can also be evaluated using this data. Additionally, this information can be useful for identifying regions where investments in renewable energy infrastructure could be profitable. 
+
+In order to determine the distribution of electricity generation from each type of renewable energy sources across BEA regions in the US, the states were grouped together based on their respective regions. The state annual generation values for each type of renewable source were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each type of renewable energy source for each region, annually.
 
 ```{r Research.Question.2, include=FALSE}
 
@@ -459,6 +465,15 @@ kable(distribution_rene, align = "c")
 ```
 
 ## Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
+
+This question delves into greenhouse gas emissions from electricity generators across the Bureau of Economic Analysis (BEA) regions in the United States. Greenhouse gases, such as carbon dioxide, methane, nitrous oxide, sulfur dioxide and many more are released into the atmosphere as a result of the combustion of fossil fuels for electricity generation, which contributes to climate change.
+
+The purpose of this question is to understand the level of greenhouse gas emissions from electricity generators in each region and to identify areas where there may be opportunities to reduce greenhouse gas emissions. 
+
+Analysts can make use of this data to gain insights into the sources and levels of greenhouse gas emissions from electricity generators in each region and help in the development of strategies for reducing emissions. Policymakers across USA need this data to comprehend the necessity to develop policies and regulations that encourage the transition to clean energy sources and the reduction of greenhouse gas emissions from electricity generators, such as carbon pricing or cap-and-trade programs. This information is also crucial to identify regions where investments in renewable energy infrastructure, technology and operations may impact the environment. 
+
+In order to determine the greenhouse gas emissions across BEA regions in the US from electricity generators, 
+
 ```{r Research.Question.3, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions", fig.align='center'}
 pollutants.plot <- 
   egrid_subset %>%
@@ -491,6 +506,8 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
 
 
 ## Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
+
+
 ```{r Research Question 4, echo=FALSE, fig.align='center'}
 # Boxplot
 CO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
@@ -544,8 +561,6 @@ ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
        dpi = 'retina',
        bg = '#f6efdcff',
        device = 'png')
-
-
 ```
 
 ## Question 5: Is there correlation between energy generators and pollutants emitted? 
@@ -612,6 +627,7 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
 # Summary and Conclusions
 
 
+
 \newpage
 
 # Appendix
@@ -627,6 +643,8 @@ summary.table.pollution
 ```{r summary.table.fuels, echo=FALSE, fig.align='center', fig.cap="Table 3: Summary Statistics of Energy Sources Per Region"}
 summary.table.fuels
 ```
+
+\newpage
 
 # References
 
