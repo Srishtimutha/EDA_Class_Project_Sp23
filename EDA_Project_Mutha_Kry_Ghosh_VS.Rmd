@@ -96,10 +96,10 @@ Plains <- c("IA", "KS", "MN", "MO", "NE", "ND", "SD")
 SouthEast <- c("AL", "AR", "FL", "GA", "KY", "LA", "MS", "NC", "SC", "TN", "VA", "WV")
 SouthWest <- c("AZ", "NM", "OK", "TX")
 RockyMountain <- c("CO", "ID", "MT", "UT", "WY")
-FarWest <- c("CA", "HI", "NV", "OR", "WA")
+FarWest <- c("CA", "NV", "OR", "WA")
 
 #this next one is not a classification used by BEA but one that is useful for analysing this dataset
-NonContiguous <- c("AK", "PR") 
+NonContiguous <- c("AK", "HI", "PR") 
 
 egrid_subset$Region[egrid_subset$PSTATABB %in% NewEngland] <- "New England"
 egrid_subset$Region[egrid_subset$PSTATABB %in% MidEast] <- "Mid East"
@@ -349,7 +349,7 @@ energy.sources.plot <- energy.sources %>%
     theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
 energy.sources.plot
 ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
-       plot = pollutants.plot,
+       plot = energy.sources.plot,
        dpi = 'retina',
        bg = '#f6efdcff',
        device = 'png')
@@ -369,8 +369,12 @@ print(distribution_nonrene)
 
 colnames(distribution_nonrene) <- c("Region","Coal generation (MWh)","Oil generation (MWh)","Natural Gas generation (MWh)","Nuclear generation (MWh)")
 
+<<<<<<< HEAD
 kable(distribution_nonrene, align = "c")
 kable(distribution_rene, align = "c")
+=======
+#stacked bar plots to show distribution of energy sources for each region
+>>>>>>> add8a648aa75f2dfae47704b5a8eb76d68753c4b
 
 ```
 
@@ -469,19 +473,57 @@ Ho: There is no correlation between energy generators and pollutants emitted
 Ha: There is correlation between energy generators and pollutants emitted
 
 ```{r Research Question 5}
-#T.Test
+#T.Test of annual net energy generations and pollutants emitted 
 
-T_GENOX <- lm(egrid_subset$STNGENAN ~ egrid_subset$STNOXAN)
+T_GENOX <- lm(egrid_subset$STNOXAN ~ egrid_subset$STNGENAN)
 summary(T_GENOX)
 
-T_GESO2 <-lm(egrid_subset$STNGENAN ~ egrid_subset$STSO2AN)
+T_GESO2 <-lm(egrid_subset$STSO2AN ~ egrid_subset$STNGENAN)
 summary(T_GESO2)
 
-T_GECO2 <- lm(egrid_subset$STNGENAN ~ egrid_subset$STCO2AN)
+T_GECO2 <- lm(egrid_subset$STCO2AN ~ egrid_subset$STNGENAN)
 summary(T_GECO2)
 
-T_GECO2EQA <- lm(egrid_subset$STNGENAN ~ egrid_subset$STCO2EQA)
+T_GECO2EQA <- lm(egrid_subset$STCO2EQA ~ egrid_subset$STNGENAN)
 summary(T_GECO2EQA)
+
+#Linear Regression plots of Annual Net Energy Generation and different types of pullutants 
+ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2AN)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Annual Net Energy Generation (MWh)",
+       y = "CO2 Emissions (tons)",
+       title = "Linear Regression: Annual Net Energy Generation and CO2 Emissions")
+
+ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2EQA)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Annual Net Energy Generation (MWh)",
+       y = "CO2 Equivalent Emissions (tons)",
+       title = "Linear Regression: Annual Net Energy Generation and CO2 Eq Emissions")
+
+ggplot(data = egrid_subset, aes(x = STNGENAN, y = STSO2AN)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Annual Net Energy Generation (MWh)",
+       y = "SO2 Emissions (tons)",
+       title = "Linear Regression: Annual Net Energy Generation and SO2 Emissions")
+
+ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Annual Net Energy Generation (MWh)",
+       y = "NOX Emissions (tons)",
+       title = "Linear Regression: Annual Net Energy Generation and NOX Emissions")
+```
+
+```{r}
+#aqi ~ renewable energy consumption + gdp_pc + 
+#renewable energy consumption ~ gdp_pc
+#variables to consider: aqi, mortality rate, gdp_pc, Renewable energy consumption %
+#aqi ~ renewable energy % (from separate datasets)
+#Ask Luana for other ideas for linear models, what the independent and dependent variables and controls
+#mortality rate ~ aqi + median household income + Renewable energy consumption % + education + sex ratio
 ```
 
 
