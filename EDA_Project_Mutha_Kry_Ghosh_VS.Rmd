@@ -395,6 +395,12 @@ kable(distribution_rene, align = "c")
 ```
 
 ## Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
+
+This question delves into greenhouse gas emissions from electricity generators across the Bureau of Economic Analysis (BEA) regions in the United States. Greenhouse gases, such as carbon dioxide, methane, nitrous oxide, sulfur dioxide and many more are released into the atmosphere as a result of the combustion of fossil fuels for electricity generation, which contributes to climate change.
+      The purpose of this question is to understand the level of greenhouse gas emissions from electricity generators in each region and to identify areas where there may be opportunities to reduce greenhouse gas emissions. 
+      Analysts can make use of this data to gain insights into the sources and levels of greenhouse gas emissions from electricity generators in each region and help in the development of strategies for reducing emissions. Policymakers across USA need this data to comprehend the necessity to develop policies and regulations that encourage the transition to clean energy sources and the reduction of greenhouse gas emissions from electricity generators, such as carbon pricing or cap-and-trade programs. This information is also crucial to identify regions where investments in renewable energy infrastructure, technology and operations may impact the environment. 
+      In order to determine the greenhouse gas emissions across BEA regions in the US from electricity generators, 
+
 ```{r Research.Question.3, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions", fig.align='center'}
 pollutants.plot <- 
   egrid_subset %>%
@@ -427,6 +433,8 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
 
 
 ## Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
+
+
 ```{r Research Question 4, echo=FALSE, fig.align='center'}
 # Boxplot
 CO2_Plot <- ggplot(egrid_subset, aes(x = Region, y = STCO2AN)) + 
@@ -480,8 +488,6 @@ ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
        dpi = 'retina',
        bg = '#f6efdcff',
        device = 'png')
-
-
 ```
 
 ## Question 5: Is there correlation between energy generators and pollutants emitted? 
@@ -548,6 +554,7 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
 # Summary and Conclusions
 
 
+
 \newpage
 
 # Appendix
@@ -563,6 +570,8 @@ summary.table.pollution
 ```{r summary.table.fuels, echo=FALSE, fig.align='center', fig.cap="Table 3: Summary Statistics of Energy Sources Per Region"}
 summary.table.fuels
 ```
+
+\newpage
 
 # References
 
