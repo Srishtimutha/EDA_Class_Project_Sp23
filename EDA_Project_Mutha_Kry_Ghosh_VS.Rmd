@@ -328,6 +328,7 @@ g)Rocky Mountain
 h)Far West
 
 The purpose of this information is to gain a deeper understanding of the power production in different regions of United States and the types of energy sources used. This data can aid  policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
+      In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The annual state generation values were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each region, annually. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
 
 ```{r Research.Question.1, include=FALSE}
 
@@ -368,6 +369,8 @@ ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
 ```
 
 ## Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
+
+
 ```{r Research.Question.2, include=FALSE}
 
 distribution_rene<-aggregate(cbind(STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT) ~ Region,data=egrid_subset, FUN=sum)
@@ -560,10 +563,11 @@ summary.table.fuels
 
 # References
 
-1. https://www.epa.gov/egrid/download-data
-2. https://www.cdc.gov/nchs/fastats/state-and-territorial-data.htm
-3. https://data.census.gov/table?t=Age+and+Sex&g=010XX00US$0400000&y=2020&tid=ACSST5Y2020.S0101&moe=false
-4. https://data.census.gov/table?t=Education&g=010XX00US$0400000&y=2020&tid=ACSST5Y2020.S1501&moe=false
-5. https://data.census.gov/table?t=Income+and+Poverty&g=010XX00US$0400000&y=2020&tid=ACSST5Y2020.S1901&moe=false
-6. https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2021.zip
+1. https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States
+2. https://www.epa.gov/egrid/download-data
+3. https://www.cdc.gov/nchs/fastats/state-and-territorial-data.htm
+4. https://data.census.gov/table?t=Age+and+Sex&g=010XX00US$0400000&y=2020&tid=ACSST5Y2020.S0101&moe=false
+5. https://data.census.gov/table?t=Education&g=010XX00US$0400000&y=2020&tid=ACSST5Y2020.S1501&moe=false
+6. https://data.census.gov/table?t=Income+and+Poverty&g=010XX00US$0400000&y=2020&tid=ACSST5Y2020.S1901&moe=false
+7. https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2021.zip
 
