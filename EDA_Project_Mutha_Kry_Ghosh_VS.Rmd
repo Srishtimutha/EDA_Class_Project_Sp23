@@ -389,7 +389,6 @@ f) Southwest
 g) Rocky Mountain
 h) Far West
 
-
 The purpose of this information is to gain a deeper understanding of the power production in different regions of United States and the types of energy sources used. This data can aid policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
 
 In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The state annual generation values were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each region, annually. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
@@ -578,6 +577,7 @@ Through this question we try to find this correlation between energy generators 
 
 H~o~: There is no correlation between energy generators and pollutants emitted
 H~a~: There is correlation between energy generators and pollutants emitted
+
 
 ```{r Research Question 5}
 #T.Test of annual net energy generations and pollutants emitted 
