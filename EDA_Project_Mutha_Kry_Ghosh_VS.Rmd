@@ -118,6 +118,12 @@ egrid_subset$Region == "blank" #verifying that all states have been categorized
 
 ```
 
+```{r adding and wrangling new datasets, include=FALSE}
+aqi <- readxl::read_xlsx(path = './Data/Raw/US EPA - Annual AQI by County 2021.xlsx',
+                         skip = 1)
+```
+
+
 
 # Rationale and Research Questions
 The US has been transitioning towards a greater reliance on renewable energy sources such as wind, solar, hydro power and many more technologies. Analyzing the e-Grid data can provide insights into the distribution of clean energy generation across US, performance of these renewable energy sources, their impact on the electricity generation and energy markets throughout USA, and whether they are meeting the expectations of energy companies, policymakers, and consumers. 
