@@ -648,7 +648,7 @@ Our models had different R2 values though. Annual electricity generation is able
 Further, the $\beta$ coefficients for the first two models (between electricity generation and $NO_x$ or $SO_2$) are of the order of $10^{-4}$ indicating a very small influence of electricity generation on the quantity of pollutants emitted. Whereas the $\beta$ coefficients for the last two models (between electricity generation and $CO_2$ or $CO_2$-equivalents) are of the order of $10^{-1}$ indicating that electricity generation has a 1000-fold greater impact on $CO_2$ emissions than it does on the other pollutants we looked at.
 
 
-```{r Research Question 5, echo=FALSE, fig.align='center'}
+```{r Research Question 5, echo=FALSE}
 #T.Test of annual net energy generations and pollutants emitted 
 
 T_GENOX <- lm(STNOXAN ~ STNGENAN, data = egrid_subset)
@@ -666,29 +666,42 @@ print("************************************************************")
 T_GECO2EQA <- lm(STCO2EQA ~ STNGENAN, data = egrid_subset)
 summary(T_GECO2EQA)
 print("************************************************************")
+```
 
-#Linear Regression plots of Annual Net Energy Generation and different types of pullutants 
+Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
+```{r Q5_CO2, echo=FALSE, fig.align='center'}
+
+#Linear Regression plots of Annual Net Energy Generation and different types of pollutants 
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2AN)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "Annual Net Energy Generation (MWh)",
        y = "CO2 Emissions (tons)",
        title = "Linear Regression: Annual Net Energy Generation and CO2 Emissions")
+```
 
+Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
+```{r Q5_CO2e, echo=FALSE, fig.align='center'}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2EQA)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "Annual Net Energy Generation (MWh)",
        y = "CO2 Equivalent Emissions (tons)",
        title = "Linear Regression: Annual Net Energy Generation and CO2 Eq Emissions")
+```
 
+Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
+```{r Q5_SO2, echo=FALSE, fig.align='center'}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STSO2AN)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "Annual Net Energy Generation (MWh)",
        y = "SO2 Emissions (tons)",
        title = "Linear Regression: Annual Net Energy Generation and SO2 Emissions")
+```
 
+Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
+```{r Q5_NOX, echo=FALSE, fig.align='center'}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
@@ -713,6 +726,7 @@ model1.corplot <- GGally::ggpairs(data = dataset_final,
 
 ```
 
+Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
 ```{r model1 results, echo=FALSE, fig.align='center'}
 summary(model1)
 model1.corplot
@@ -742,6 +756,7 @@ model2.corplot <- GGally::ggpairs(data = model2_subset,
                           columns = c('rank_medianAQI', 'medianHHI', 'rank_pctRene', 'pctEducation', 'rank_SexRatio', 'DeathRate'))
 ```
 
+Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
 ```{r model2 results, echo=FALSE, fig.align='center'}
 summary(model2)
 model2.corplot
@@ -763,6 +778,7 @@ model3.corplot <- GGally::ggpairs(data = model3_subset,
 
 ```
 
+Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
 ```{r model3 results, echo=FALSE}
 summary(model3)
 model3.corplot
