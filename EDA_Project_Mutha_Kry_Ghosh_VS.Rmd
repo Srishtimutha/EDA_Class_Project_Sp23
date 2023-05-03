@@ -188,13 +188,8 @@ dataset_final <- merge(stateabb, egrid_subset,
 # write.csv(dataset_final, file = './Data/Processed/Final Merged Dataset.csv')
 ```
 
-<<<<<<< HEAD
-# Rationale and Research Questions
-=======
-
-
 ### Rationale and Research Questions
->>>>>>> 8b28ab613d920094d3eb72710065e50e6f1b7e62
+
 The US has been transitioning towards a greater reliance on renewable energy sources such as wind, solar, hydro power and many more technologies. Analyzing the e-Grid data can provide insights into the distribution of clean energy generation across US, performance of these renewable energy sources, their impact on the electricity generation and energy markets throughout USA, and whether they are meeting the expectations of energy companies, policymakers, and consumers. 
 
 This project aims to use e-GRID 2021 (published January 2023) to answer the following research questions:
@@ -417,7 +412,6 @@ colnames(generation_rene) <- c("Region", "Total renewable generation (MWh)")
 colnames(generation_nonrene) <- c("Region", "Total non-renewable generation (MWh)")
 
 #bar plot
-
 energy.sources <- merge(generation_rene, generation_nonrene) %>%
   pivot_longer(cols = c("Total renewable generation (MWh)", "Total non-renewable generation (MWh)"),
                names_to = "source",
@@ -442,6 +436,7 @@ ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
 
 ```
 
+Figure 1: Distribution of Energy Sources by Region in 2021
 ```{r Q1plot, echo=FALSE, fig.align='center'}
 energy.sources.plot
 ```
@@ -471,10 +466,46 @@ colnames(distribution_nonrene) <- c("Region","Coal generation (MWh)","Oil genera
 kable(distribution_nonrene, align = "c")
 kable(distribution_rene, align = "c")
 
-#stacked bar plots to show distribution of energy sources for each region
+#stacked bar plots to show distribution of different renewable energy sources across the BEA regions of USA in 2021
 
+renewable_energy_plot<-
+  egrid_subset%>%
+  select(Region,STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT)%>%
+  group_by(Region)%>%
+  #mutate(STCO2EQA = STCO2EQA - STCO2AN) %>%
+  summarise("Total Hydro-electric generation" = sum(STGENAHY),
+            "Total Biomass generation" = sum(STGENABM),
+            "Total Wind power generation" = sum(STGENAWI),
+            "Total Solar power generation" = sum(STGENASO),
+            "Total Geothermal power generation" = sum(STGENAGT)) %>%
+  pivot_longer(cols = c("Total Hydro-electric generation",
+                        "Total Biomass generation",
+                        "Total Wind power generation",
+                        "Total Solar power generation",
+                        "Total Geothermal power generation"),
+               names_to = "variable",
+               values_to = "values") %>%
+  ggplot(mapping = aes(x = Region,
+                       y = values,
+                       fill = variable)) +
+    geom_bar(stat = "identity",
+             position = position_stack(reverse = TRUE)) +
+    labs(title = "Different renewable energy generations across regions in 2021",
+         x = "Regions",
+         y = "Generation (MWh)",
+         fill = "Generation category") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
+
+ggsave(filename = "./Plots/Q2_renewable_energy_plot.png",
+       plot = renewable_energy_plot,
+       dpi = 'retina',
+       device = 'png')
 ```
 
+Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
+```{r Q2plot, echo=FALSE, fig.cap="Different renewable energy generations across regions in 2021", fig.align='center'}
+renewable_energy_plot
+```
 #### Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
 
 This question delves into greenhouse gas emissions from electricity generators across the BEA regions in the US. Greenhouse gases, such as carbon dioxide, methane, nitrous oxide, sulfur dioxide and many more are released into the atmosphere as a result of the combustion of fossil fuels for electricity generation, which contributes to climate change.
@@ -502,7 +533,7 @@ pollutants.plot <-
                        fill = variable)) +
     geom_bar(stat = "identity",
              position = position_stack(reverse = TRUE)) +
-    labs(title = "Total CO2 and CO2 eq emissions across regions",
+    labs(title = "Total CO2 and CO2 eq emissions across regions in 2021",
          x = "Regions",
          y = "Emissions (tons)",
          fill = "Emission category") +
@@ -515,10 +546,10 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
        device = 'png')
 ```
 
-```{r Q3plot, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions", fig.align='center'}
+Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
+```{r Q3plot, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions in 2021", fig.align='center'}
 pollutants.plot
 ```
-
 
 
 #### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted
@@ -528,6 +559,7 @@ The summary statistics on electricity generators across the BEA regions in the U
 Looking at the plots for each region, we can see that the highest median of pollutants is in the Great Lakes region, while the lowest is in New England. Additionally, there is a potential outlier in the data for the South West region.
 
 obtain a comprehensive understanding of the electricity generation infrastructure across different regions in the United States, to facilitate the identification of opportunities for investment in renewable energy infrastructure, evaluate the environmental impact of electricity generation in each region, and to develop policies and regulations that encourage the reduction of harmful emissions.
+
 
 ```{r Research Question 4, include=FALSE}
 # Boxplot
@@ -580,13 +612,25 @@ ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
        device = 'png')
 ```
 
-```{r Q4plots, echo=FALSE, fig.align='center'}
+Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
+```{r Q4plot_CO2, echo=FALSE, fig.align='center'}
 CO2_Plot
-SO2_Plot
-NOX_Plot
-CO2EQA_Plot
 ```
 
+Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
+```{r Q4plot_SO2, echo=FALSE, fig.align='center'}
+SO2_Plot
+```
+
+Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
+```{r Q4plot_NOX, echo=FALSE, fig.align='center'}
+NOX_Plot
+```
+
+Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
+```{r Q4plot_CO2e, echo=FALSE, fig.align='center'}
+CO2EQA_Plot
+```
 
 #### Question 5: Is there correlation between energy generators and pollutants emitted? 
 
