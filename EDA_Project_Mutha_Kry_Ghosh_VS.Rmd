@@ -485,16 +485,16 @@ renewable_energy_plot<-
   select(Region,STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT)%>%
   group_by(Region)%>%
   #mutate(STCO2EQA = STCO2EQA - STCO2AN) %>%
-  summarise("Total Hydro-electric generation" = sum(STGENAHY),
-            "Total Biomass generation" = sum(STGENABM),
-            "Total Wind power generation" = sum(STGENAWI),
-            "Total Solar power generation" = sum(STGENASO),
-            "Total Geothermal power generation" = sum(STGENAGT)) %>%
-  pivot_longer(cols = c("Total Hydro-electric generation",
-                        "Total Biomass generation",
-                        "Total Wind power generation",
-                        "Total Solar power generation",
-                        "Total Geothermal power generation"),
+  summarise("Hydro-electric" = sum(STGENAHY),
+            "Biomass" = sum(STGENABM),
+            "Wind" = sum(STGENAWI),
+            "Solar" = sum(STGENASO),
+            "Geothermal" = sum(STGENAGT)) %>%
+  pivot_longer(cols = c("Hydro-electric",
+                        "Biomass",
+                        "Wind",
+                        "Solar",
+                        "Geothermal"),
                names_to = "variable",
                values_to = "values") %>%
   ggplot(mapping = aes(x = Region,
@@ -514,7 +514,7 @@ ggsave(filename = "./Plots/Q2_renewable_energy_plot.png",
        device = 'png')
 ```
 
-```{r Q2plot, echo=FALSE, fig.cap="Distribution of different renewable energy generation sources across BEA regions of USA in 2021", fig.align='center', fig.width=6.5}
+```{r Q2plot, echo=FALSE, fig.cap="Distribution of different renewable energy generation sources across BEA regions of USA in 2021", fig.align='center'}
 renewable_energy_plot
 ```
 \newpage
