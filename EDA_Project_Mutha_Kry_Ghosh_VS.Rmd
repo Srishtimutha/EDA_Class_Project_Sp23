@@ -10,26 +10,27 @@ output:
 geometry: margin=2.54cm
 fig_caption: yes
 ---
-####LIST OF TABLES:
-#Table 1:Summary Statistics for Variables per Region
-#Table 2: Summary Statistics of Pollutants Emitted per Region
-#Table 3: Summary Statistics of Energy Sources Per Region
 
-####LIST OF FIGURES:
-#Figure 1: Distribution of Energy Sources by Region in 2021
-#Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
-#Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
-#Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
-#Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
-#Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
-#Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
-#Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
-#Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
-#Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
-#Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
-#Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
-#Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
-#Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
+### LIST OF TABLES:
+###### Table 1:Summary Statistics for Variables per Region
+###### Table 2: Summary Statistics of Pollutants Emitted per Region
+###### Table 3: Summary Statistics of Energy Sources Per Region
+
+### LIST OF FIGURES:
+###### Figure 1: Distribution of Energy Sources by Region in 2021
+###### Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
+###### Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
+###### Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
+###### Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
+###### Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
+###### Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
+###### Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
+###### Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
+###### Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
+###### Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
+###### Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
+###### Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
+###### Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
 
 ```{r installing packages, include=FALSE}
 if(!require(knitr)) {
@@ -309,8 +310,8 @@ summary.fuels <- egrid_subset %>%
 summary.table.plants <- summary.plants %>%
   gt() %>%
     tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(200),
-               everything()~ px(120) )%>%
+    cols_width(c(variable)~ px(150),
+               everything()~ px(100) )%>%
 
   tab_header(
     title = md("Table 1: Summary Statistics for Variables per Region")) %>%
@@ -341,8 +342,8 @@ summary.table.pollution <- summary.pollution %>%
     cols_width(c(variable)~ px(200),
                everything()~ px(120) )%>%
 
-  # tab_header(
-  #   title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
+  tab_header(
+    title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -370,8 +371,8 @@ summary.table.fuels <- summary.fuels %>%
     cols_width(c(variable)~ px(200),
                everything()~ px(120) )%>%
 
-  # tab_header(
-  #   title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
+  tab_header(
+    title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -450,12 +451,10 @@ ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
 
 ```
 
-Figure 1: Distribution of Energy Sources by Region in 2021
-```{r Q1plot, echo=FALSE, fig.align='center'}
+```{r Q1plot, echo=FALSE, fig.align='center', fig.cap="Distribution of Energy Sources by Region in 2021", fig.width=6.5}
 energy.sources.plot
 ```
-
-
+\newpage
 #### Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
 
 The second research question looks deeper into the distribution of electricity generation from each type of renewable energy source across the BEA regions of the US. Renewable energy sources include solar, wind, hydro, geothermal, and biomass.
@@ -516,10 +515,10 @@ ggsave(filename = "./Plots/Q2_renewable_energy_plot.png",
        device = 'png')
 ```
 
-Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
-```{r Q2plot, echo=FALSE, fig.cap="Different renewable energy generations across regions in 2021", fig.align='center'}
+```{r Q2plot, echo=FALSE, fig.cap="Distribution of different renewable energy generation sources across BEA regions of USA in 2021", fig.align='center', fig.width=6.5}
 renewable_energy_plot
 ```
+\newpage
 #### Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
 
 This question delves into greenhouse gas emissions from electricity generators across the BEA regions in the US. Greenhouse gases, such as carbon dioxide, methane, nitrous oxide, sulfur dioxide and many more are released into the atmosphere as a result of the combustion of fossil fuels for electricity generation, which contributes to climate change.
@@ -528,7 +527,7 @@ The purpose of this question is to understand the level of greenhouse gas emissi
 
 Analysts can make use of this data to gain insights into the sources and levels of greenhouse gas emissions from electricity generators in each region and help in the development of strategies for reducing emissions. Policymakers across USA need this data to comprehend the necessity to develop policies and regulations that encourage the transition to clean energy sources and the reduction of greenhouse gas emissions from electricity generators, such as carbon pricing or cap-and-trade programs. This information is also crucial to identify regions where investments in renewable energy infrastructure, technology and operations may impact the environment. 
 
-In order to determine the greenhouse gas emissions across BEA regions in the US from electricity generators, 
+In order to determine the greenhouse gas emissions across BEA regions in the US from electricity generators, we generated the stacked barplot below which shows the $CO_2$ and $CO_2$-equivalents emissions for the different regions in the US. We see that the South-East region has the highest emissions which can be correlated with the fact that this region has the greatest fraction of its electricity coming from non-renewable sources. New England and Non-Contiguous regions have the lowest emissions because of their low annual electricity generation. 
 
 ```{r Research.Question.3, include=FALSE}
 pollutants.plot <- 
@@ -560,11 +559,9 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
        device = 'png')
 ```
 
-Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
-```{r Q3plot, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions in 2021", fig.align='center'}
+```{r Q3plot, echo=FALSE, fig.cap="Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021", fig.align='center', fig.width=6.5}
 pollutants.plot
 ```
-
 
 #### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted
 
@@ -573,7 +570,6 @@ The summary statistics on electricity generators across the BEA regions in the U
 Looking at the plots for each region, we can see that the highest median of pollutants is in the Great Lakes region, while the lowest is in New England. Additionally, there is a potential outlier in the data for the South West region.
 
 obtain a comprehensive understanding of the electricity generation infrastructure across different regions in the United States, to facilitate the identification of opportunities for investment in renewable energy infrastructure, evaluate the environmental impact of electricity generation in each region, and to develop policies and regulations that encourage the reduction of harmful emissions.
-
 
 ```{r Research Question 4, include=FALSE}
 # Boxplot
@@ -626,23 +622,19 @@ ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
        device = 'png')
 ```
 
-Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
-```{r Q4plot_CO2, echo=FALSE, fig.align='center'}
+```{r Q4plot_CO2, echo=FALSE, fig.align='center', fig.cap="Carbon dioxide emissions in each BEA region in the USA in 2021"}
 CO2_Plot
 ```
 
-Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
-```{r Q4plot_SO2, echo=FALSE, fig.align='center'}
+```{r Q4plot_SO2, echo=FALSE, fig.align='center', fig.cap="Sulfur dioxide emissions in each BEA region in the USA in 2021"}
 SO2_Plot
 ```
 
-Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
-```{r Q4plot_NOX, echo=FALSE, fig.align='center'}
+```{r Q4plot_NOX, echo=FALSE, fig.align='center', fig.cap="Nitrogen oxide emissions in each BEA region in the USA in 2021"}
 NOX_Plot
 ```
 
-Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
-```{r Q4plot_CO2e, echo=FALSE, fig.align='center'}
+```{r Q4plot_CO2e, echo=FALSE, fig.align='center', fig.cap="Carbon dioxide equivalent emissions in each BEA region in the USA in 2021"}
 CO2EQA_Plot
 ```
 
@@ -682,8 +674,7 @@ summary(T_GECO2EQA)
 print("************************************************************")
 ```
 
-Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
-```{r Q5_CO2, echo=FALSE, fig.align='center'}
+```{r Q5_CO2, echo=FALSE, fig.align='center', fig.cap="Linear Regression plot of Annual Net Energy Generation and CO2 emissions"}
 
 #Linear Regression plots of Annual Net Energy Generation and different types of pollutants 
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2AN)) +
@@ -694,8 +685,7 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2AN)) +
        title = "Linear Regression: Annual Net Energy Generation and CO2 Emissions")
 ```
 
-Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
-```{r Q5_CO2e, echo=FALSE, fig.align='center'}
+```{r Q5_CO2e, echo=FALSE, fig.align='center', fig.cap="Linear Regression plot of Annual Net Energy Generation and CO2e emissions"}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2EQA)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
@@ -704,8 +694,7 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2EQA)) +
        title = "Linear Regression: Annual Net Energy Generation and CO2 Eq Emissions")
 ```
 
-Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
-```{r Q5_SO2, echo=FALSE, fig.align='center'}
+```{r Q5_SO2, echo=FALSE, fig.align='center', fig.cap="Linear Regression plot of Annual Net Energy Generation and SO2 emissions"}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STSO2AN)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
@@ -714,8 +703,7 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STSO2AN)) +
        title = "Linear Regression: Annual Net Energy Generation and SO2 Emissions")
 ```
 
-Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
-```{r Q5_NOX, echo=FALSE, fig.align='center'}
+```{r Q5_NOX, echo=FALSE, fig.align='center', fig.cap="Linear Regression plot of Annual Net Energy Generation and NOX emissions"}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
@@ -740,8 +728,7 @@ model1.corplot <- GGally::ggpairs(data = dataset_final,
 
 ```
 
-Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
-```{r model1 results, echo=FALSE, fig.align='center'}
+```{r model1 results, echo=FALSE, fig.align='center', fig.cap="Plot showing the correlation between explanatory and response variables for Model 1"}
 summary(model1)
 model1.corplot
 ```
@@ -760,23 +747,18 @@ model2_subset <- dataset_final %>%
 model2 <- lm(DeathRate ~ rank_medianAQI + medianHHI + rank_pctRene + pctEducation + rank_SexRatio,
              data = model2_subset)
 
-ggplot(data = dataset_final,
-       mapping = aes(x = rank(SexRatio, ties.method = "average"),
-                     y = DeathRate)) +
-  geom_point() +
-  geom_smooth(method = 'lm')
-
 model2.corplot <- GGally::ggpairs(data = model2_subset, 
                           columns = c('rank_medianAQI', 'medianHHI', 'rank_pctRene', 'pctEducation', 'rank_SexRatio', 'DeathRate'))
 ```
 
-Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
-```{r model2 results, echo=FALSE, fig.align='center'}
+```{r model2 results, echo=FALSE, fig.align='center', fig.cap="Plot showing the correlation between explanatory and response variables for Model 2"}
 summary(model2)
 model2.corplot
 ```
 
-Using the rank-transformed variables in our model, we get an F-statistic of 14.6 on 5 variables and 45 degrees of freedom, corresponding to a p-value <0.001. This means we can reject the null hypothesis for this model and conclude it has some explanatory power. Looking at the R2 value, we see these explanatory variables can explain under 62%
+Using the rank-transformed variables in our model, we get an F-statistic of 14.6 on 5 variables and 45 degrees of freedom, corresponding to a p-value <0.001. This means we can reject the null hypothesis for this model and conclude it has some explanatory power. Looking at the R2 value, we see these explanatory variables can explain under 62% of the variance of our response variable - death rate.
+
+Since this R2 is lower than that of Model 1, this model is not as good at explaining the variance of our response variable. Therefore, we tried using a log-transform of our variables.
 
 ```{r linear model3, include=FALSE}
 model3_subset <- dataset_final %>%
@@ -792,11 +774,14 @@ model3.corplot <- GGally::ggpairs(data = model3_subset,
 
 ```
 
-Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
-```{r model3 results, echo=FALSE}
+```{r model3 results, echo=FALSE, fig.cap="Plot showing the correlation between explanatory and response variables for Model 3"}
 summary(model3)
 model3.corplot
 ```
+
+This third model has an F-statistic of 16.35 on 5 variables and 45 degrees of freedom, corresponding to a p-value of <0.001. This means we can reject the null hypothesis and conclude that our model has some explanatory power. The R2 for this model comes to 64.5% which is an improvement over Model 1.
+
+Looking at our best model, we see that percent renewable energy consumption has a $\beta$ value of -8.11 at a p-value of 0.68. This p-value is greater than 0.1 which means that this variable does not significantly explain variance of death rate across the US. This observation goes against our initial assumption where we expected renewable energy consumption to significantly impact death rates across the US.
 
 \newpage
 
