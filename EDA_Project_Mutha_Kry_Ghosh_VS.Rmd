@@ -563,6 +563,7 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
 pollutants.plot
 ```
 
+\newpage
 #### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted
 
 The summary statistics on electricity generators across the BEA regions in the United States covers information such as the type of fuel source used, the nameplate capacity of the generators, the annual net generation of electricity, and the amount of pollutants emitted. We performed some statistical analyses to obtain more insights. Boxplots are used for summary statistics of this question as they are the most appropriate visualization to understand the distribution of annual net generation of electricity in different regions and the pollutants. They provide a reliable way to compare medians, ranges, spread of data, and identify potential outliers, and are more effective at communicating this information than violin plots or scatter plots.
@@ -638,6 +639,7 @@ NOX_Plot
 CO2EQA_Plot
 ```
 
+\newpage
 #### Question 5: Is there correlation between energy generators and pollutants emitted? 
 
 We wanted to understand the correlation between electricity generation and the quantity of different pollutants that are emitted. First, we developed linear regression models to understand the impact that electricity generation has on the emissions of different pollutants (so four linear regression models with one explanatory variable each). The type of fuel source used by a generator affects the amount and type of pollutants that are emitted during power generation. Power plants that use non-renewable fuels such as coal, oil, and natural gas emit pollutants such as carbon dioxide, methane, sulfur dioxide, nitrogen oxides, and many more, majorly contribute to climate change and air pollution.
