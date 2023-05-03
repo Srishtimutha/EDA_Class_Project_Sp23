@@ -219,14 +219,14 @@ These analyses will be performed by aggregating the states into categories as do
 \newpage
 
 ### Dataset Information
-The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehensive source of data published by the Environment Protection Agency of the US Government.  This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. It includes emissions, emission rates, generation, heat input, resource mix, and many other attributes. eGRID is typically used for greenhouse gas registries and inventories, carbon footprints, consumer information disclosure, emission inventories and standards, power market changes, and avoided emission estimates.In our project we have used the e-Grid 2021 data-set which was released on January 30th, 2023. 
-
-Below are some summary statistics of the installed capacity and annual generation per region, pollutants and their CO2 equivalents per region, and lastly about the distribution of annual generation across different renewable and non-renewable sources of energy.
+The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehensive source of data published by the Environment Protection Agency of the US Government.  This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. It includes emissions, emission rates, generation, heat input, resource mix, and many other attributes. eGRID is typically used for greenhouse gas registries and inventories, carbon footprints, consumer information disclosure, emission inventories and standards, power market changes, and avoided emission estimates.In our project we have used the e-Grid 2021 data-set which was released on January 30th, 2023. We have also made use of the USA EPA Census Data and CDC - Centers for Disease Control and Prevention for 2021. 
 
 \newpage
 
 
 ### Exploratory Analysis 
+
+Below are some summary statistics of the installed capacity and annual generation per region, pollutants and their CO2 equivalents per region, and lastly about the distribution of annual generation across different renewable and non-renewable sources of energy.
 
 ```{r summary.stats, include=FALSE}
 
