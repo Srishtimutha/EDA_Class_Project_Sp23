@@ -8,7 +8,7 @@ output:
   html_document:
     df_print: paged
 geometry: margin=2.54cm
-fig_caption: yes
+fig_caption: true
 ---
 
 ### LIST OF TABLES:
@@ -227,17 +227,17 @@ The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehens
 
 ### Exploratory Analysis 
 
-Below are some summary statistics of the installed capacity and annual generation per region, pollutants and their CO2 equivalents per region, and lastly about the distribution of annual generation across different renewable and non-renewable sources of energy.
+We generated some summary statistics of variables like the installed capacity and annual generation per region (Table 1), pollutants and their $CO_2$ equivalents per region (Table 2), and lastly about the distribution of annual generation across different renewable and non-renewable sources of energy (Table 3). These tables are available in the Appendix.
 
 ```{r summary.stats, include=FALSE}
 
 #summary stats of total nameplate capacity and annual generation per region
 summary.plants <- egrid_subset %>%
   select(Region, STNAMEPCAP, STNGENAN) %>%
-  rename("State nameplate capacity (GW)" = STNAMEPCAP,
-         "State annual net generation (GWh)" = STNGENAN) %>%
-  pivot_longer(cols = c("State nameplate capacity (GW)",
-                        "State annual net generation (GWh)"),
+  rename("Nameplate capacity (GW)" = STNAMEPCAP,
+         "Annual net generation (GWh)" = STNGENAN) %>%
+  pivot_longer(cols = c("Nameplate capacity (GW)",
+                        "Annual net generation (GWh)"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
@@ -252,48 +252,48 @@ summary.plants <- egrid_subset %>%
  
 summary.pollution <- egrid_subset %>%
   select(Region, STNOXAN, STSO2AN, STCO2AN, STCO2EQA) %>%
-  rename("State annual NOx emissions (tons)" = STNOXAN,
-         "State annual SO2 emissions (tons)" = STSO2AN,
-         "State annual CO2 emissions (tons)" = STCO2AN,
-         "State annual CO2 equivalent emissions (tons)" = STCO2EQA) %>%
-  pivot_longer(cols = c("State annual NOx emissions (tons)",
-                        "State annual SO2 emissions (tons)",
-                        "State annual CO2 emissions (tons)",
-                        "State annual CO2 equivalent emissions (tons)"),
+  rename("Annual NOx emissions" = STNOXAN,
+         "Annual SO2 emissions" = STSO2AN,
+         "Annual CO2 emissions" = STCO2AN,
+         "Annual CO2 equivalent emissions" = STCO2EQA) %>%
+  pivot_longer(cols = c("Annual NOx emissions",
+                        "Annual SO2 emissions",
+                        "Annual CO2 emissions",
+                        "Annual CO2 equivalent emissions"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
-            min = round(min(value, na.rm = TRUE), 2),
-            max = round(max(value, na.rm = TRUE), 2),
-            mean = round(mean(value, na.rm = TRUE), 2),
-            median = round(median(value, na.rm=TRUE), 2),
-            sd = round(sd(value, na.rm=TRUE), 2),
-            skewness = round(skew(value, na.rm = TRUE), 2))
+            min = round(min(value/1000, na.rm = TRUE), 2),
+            max = round(max(value/1000, na.rm = TRUE), 2),
+            mean = round(mean(value/1000, na.rm = TRUE), 2),
+            median = round(median(value/1000, na.rm=TRUE), 2),
+            sd = round(sd(value/1000, na.rm=TRUE), 2),
+            skewness = round(skew(value/1000, na.rm = TRUE), 2))
 
-#summary stats of region-wise breakdown of generation by fuel type
+#summary stats of region-wise breakdown of annual net generation (in GWh) by fuel type
 summary.fuels <- egrid_subset %>%
   select(Region, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY,
          STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF) %>%
-  rename("State annual coal net generation (GWh)" = STGENACL,
-         "State annual oil net generation (GWh)" = STGENAOL,
-         "State annual gas net generation (GWh)" = STGENAGS,
-         "State annual nuclear net generation (GWh)" = STGENANC,
-         "State annual hydro net generation (GWh)" = STGENAHY,
-         "State annual biomass net generation (GWh)" = STGENABM,
-         "State annual wind net generation (GWh)" = STGENAWI,
-         "State annual solar net generation (GWh)" = STGENASO,
-         "State annual geothermal net generation (GWh)" = STGENAGT,
-         "State annual other fossil net generation (GWh)" = STGENAOF) %>%
-  pivot_longer(cols = c("State annual coal net generation (GWh)",
-                        "State annual oil net generation (GWh)",
-                        "State annual gas net generation (GWh)",
-                        "State annual nuclear net generation (GWh)",
-                        "State annual hydro net generation (GWh)",
-                        "State annual biomass net generation (GWh)",
-                        "State annual wind net generation (GWh)",
-                        "State annual solar net generation (GWh)",
-                        "State annual geothermal net generation (GWh)",
-                        "State annual other fossil net generation (GWh)"),
+  rename("Coal" = STGENACL,
+         "Oil" = STGENAOL,
+         "Gas" = STGENAGS,
+         "Nuclear" = STGENANC,
+         "Hydro" = STGENAHY,
+         "Biomass" = STGENABM,
+         "Wind" = STGENAWI,
+         "Solar" = STGENASO,
+         "Geothermal" = STGENAGT,
+         "Other fossil" = STGENAOF) %>%
+  pivot_longer(cols = c("Coal",
+                        "Oil",
+                        "Gas",
+                        "Nuclear",
+                        "Hydro",
+                        "Biomass",
+                        "Wind",
+                        "Solar",
+                        "Geothermal",
+                        "Other fossil"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
@@ -310,7 +310,7 @@ summary.fuels <- egrid_subset %>%
 summary.table.plants <- summary.plants %>%
   gt() %>%
     tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(150),
+    cols_width(c(variable)~ px(90),
                everything()~ px(100) )%>%
 
   tab_header(
@@ -339,11 +339,11 @@ summary.table.plants
 summary.table.pollution <- summary.pollution %>%
   gt() %>%
     tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(200),
-               everything()~ px(120) )%>%
+    cols_width(c(variable)~ px(90),
+               everything()~ px(100) )%>%
 
   tab_header(
-    title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
+    title = md("Table 2: Summary Statistics of pollutants emitted per Region (in 1000 tons)")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -368,8 +368,8 @@ summary.table.pollution
 summary.table.fuels <- summary.fuels %>%
   gt() %>%
     tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(200),
-               everything()~ px(120) )%>%
+    cols_width(c(variable)~ px(90),
+               everything()~ px(100) )%>%
 
   tab_header(
     title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
@@ -396,7 +396,6 @@ summary.table.fuels
 
 ```
 
-\newpage
 ### Analysis
 #### Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 
@@ -486,16 +485,16 @@ renewable_energy_plot<-
   select(Region,STGENAHY,STGENABM,STGENAWI,STGENASO,STGENAGT)%>%
   group_by(Region)%>%
   #mutate(STCO2EQA = STCO2EQA - STCO2AN) %>%
-  summarise("Total Hydro-electric generation" = sum(STGENAHY),
-            "Total Biomass generation" = sum(STGENABM),
-            "Total Wind power generation" = sum(STGENAWI),
-            "Total Solar power generation" = sum(STGENASO),
-            "Total Geothermal power generation" = sum(STGENAGT)) %>%
-  pivot_longer(cols = c("Total Hydro-electric generation",
-                        "Total Biomass generation",
-                        "Total Wind power generation",
-                        "Total Solar power generation",
-                        "Total Geothermal power generation"),
+  summarise("Hydro-electric" = sum(STGENAHY),
+            "Biomass" = sum(STGENABM),
+            "Wind" = sum(STGENAWI),
+            "Solar" = sum(STGENASO),
+            "Geothermal" = sum(STGENAGT)) %>%
+  pivot_longer(cols = c("Hydro-electric",
+                        "Biomass",
+                        "Wind",
+                        "Solar",
+                        "Geothermal"),
                names_to = "variable",
                values_to = "values") %>%
   ggplot(mapping = aes(x = Region,
@@ -515,7 +514,7 @@ ggsave(filename = "./Plots/Q2_renewable_energy_plot.png",
        device = 'png')
 ```
 
-```{r Q2plot, echo=FALSE, fig.cap="Distribution of different renewable energy generation sources across BEA regions of USA in 2021", fig.align='center', fig.width=6.5}
+```{r Q2plot, echo=FALSE, fig.cap="Distribution of different renewable energy generation sources across BEA regions of USA in 2021", fig.align='center'}
 renewable_energy_plot
 ```
 \newpage
@@ -563,6 +562,7 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
 pollutants.plot
 ```
 
+\newpage
 #### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted
 
 The summary statistics on electricity generators across the BEA regions in the United States covers information such as the type of fuel source used, the nameplate capacity of the generators, the annual net generation of electricity, and the amount of pollutants emitted. We performed some statistical analyses to obtain more insights. Boxplots are used for summary statistics of this question as they are the most appropriate visualization to understand the distribution of annual net generation of electricity in different regions and the pollutants. They provide a reliable way to compare medians, ranges, spread of data, and identify potential outliers, and are more effective at communicating this information than violin plots or scatter plots.
@@ -638,7 +638,8 @@ NOX_Plot
 CO2EQA_Plot
 ```
 
-#### Question 5: Is there correlation between energy generators and pollutants emitted? 
+\newpage
+#### Question 5: Is there correlation between energy generation and pollutants emitted? 
 
 We wanted to understand the correlation between electricity generation and the quantity of different pollutants that are emitted. First, we developed linear regression models to understand the impact that electricity generation has on the emissions of different pollutants (so four linear regression models with one explanatory variable each). The type of fuel source used by a generator affects the amount and type of pollutants that are emitted during power generation. Power plants that use non-renewable fuels such as coal, oil, and natural gas emit pollutants such as carbon dioxide, methane, sulfur dioxide, nitrogen oxides, and many more, majorly contribute to climate change and air pollution.
 
@@ -799,15 +800,17 @@ Future scope of work would involve comparing the generations and emissions over 
 
 ### Appendix
 
-```{r summary.table.plants, echo=FALSE, fig.align='center', fig.cap="Table 1: Summary Statistics for Variables per Region"}
+```{r summary.table.plants, echo=FALSE, fig.align='center'}
 summary.table.plants
 ```
+\newpage
 
-```{r summary.table.pollution, echo=FALSE, fig.align='center', fig.cap="Table 2: Summary Statistics of Pollutants Emitted per Region"}
+```{r summary.table.pollution, echo=FALSE, fig.align='center'}
 summary.table.pollution
 ```
+\newpage
 
-```{r summary.table.fuels, echo=FALSE, fig.align='center', fig.cap="Table 3: Summary Statistics of Energy Sources Per Region"}
+```{r summary.table.fuels, echo=FALSE, fig.align='center'}
 summary.table.fuels
 ```
 
