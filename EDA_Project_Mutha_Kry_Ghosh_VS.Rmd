@@ -788,10 +788,11 @@ Looking at our best model, we see that percent renewable energy consumption has 
 ### Summary and Conclusions
 
 In 2021, the energy market in the USA continued to shift towards renewable energy generation, but non-renewable sources still dominated the market. Through our analysis we were able to establish the same. 
+In conclusion, the data analytics assignment on electricity generation, renewable energy sources, greenhouse gas emissions, and pollutants in the BEA regions of the United States provides valuable insights that can inform policy decisions related to reducing greenhouse gas emissions, transitioning to cleaner energy sources, and identifying potential investment opportunities in renewable energy infrastructure. By analyzing the distribution of electricity generation from renewable and non-renewable energy sources, we gain a better understanding of power production in different regions of the US and the types of energy sources used, which can aid policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources that contribute to greenhouse gas emissions.
+
+Additionally, by analyzing the distribution of electricity generation from each type of renewable energy source across BEA regions, we gain insights into how different regions in the US are utilizing various renewable energy sources for electricity generation. This information is useful for identifying areas where investments in renewable energy infrastructure and technology may be needed, for developing policies and regulations that encourage the growth of specific renewable energy sources, and for evaluating potential opportunities for growth and expansion of renewable energy plants into regions that have high potential. The analysis of greenhouse gas emissions and pollutants from electricity generators across the BEA regions of the US provides insights into the sources and levels of emissions in each region, which can help in the development of strategies for reducing emissions and transitioning to cleaner energy sources.
 
 Future scope of work would involve comparing the generations and emissions over the next couple of years and understand the trend-line followed in each of these parameters of focus. 
-
-
 
 
 \newpage
