@@ -10,26 +10,27 @@ output:
 geometry: margin=2.54cm
 fig_caption: yes
 ---
-LIST OF TABLES:
-Table 1: Summary Statistics for Variables per Region
-Table 2: Summary Statistics of Pollutants Emitted per Region
-Table 3: Summary Statistics of Energy Sources Per Region
 
-LIST OF FIGURES:
-Figure 1: Distribution of Energy Sources by Region in 2021
-Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
-Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
-Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
-Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
-Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
-Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
-Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
-Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
-Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
-Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
-Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
-Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
-Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
+### LIST OF TABLES:
+###### Table 1:Summary Statistics for Variables per Region
+###### Table 2: Summary Statistics of Pollutants Emitted per Region
+###### Table 3: Summary Statistics of Energy Sources Per Region
+
+### LIST OF FIGURES:
+###### Figure 1: Distribution of Energy Sources by Region in 2021
+###### Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
+###### Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
+###### Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
+###### Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
+###### Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
+###### Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
+###### Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
+###### Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
+###### Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
+###### Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
+###### Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
+###### Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
+###### Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
 
 ```{r installing packages, include=FALSE}
 if(!require(knitr)) {
@@ -450,12 +451,10 @@ ggsave(filename = "./Plots/Q1_energy_sources_plot.png",
 
 ```
 
-###### Figure 1: Distribution of Energy Sources by Region in 2021
-```{r Q1plot, echo=FALSE, fig.align='center', fig.cap="Distribution of Energy Sources by Region in 2021"}
+```{r Q1plot, echo=FALSE, fig.align='center', fig.cap="Distribution of Energy Sources by Region in 2021", fig.width=6.5}
 energy.sources.plot
 ```
-
-
+\newpage
 #### Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
 
 The second research question looks deeper into the distribution of electricity generation from each type of renewable energy source across the BEA regions of the US. Renewable energy sources include solar, wind, hydro, geothermal, and biomass.
@@ -516,11 +515,10 @@ ggsave(filename = "./Plots/Q2_renewable_energy_plot.png",
        device = 'png')
 ```
 
-###### Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
-```{r Q2plot, echo=FALSE, fig.cap="Distribution of different renewable energy generation sources across BEA regions of USA in 2021", fig.align='center'}
+```{r Q2plot, echo=FALSE, fig.cap="Distribution of different renewable energy generation sources across BEA regions of USA in 2021", fig.align='center', fig.width=6.5}
 renewable_energy_plot
 ```
-
+\newpage
 #### Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
 
 This question delves into greenhouse gas emissions from electricity generators across the BEA regions in the US. Greenhouse gases, such as carbon dioxide, methane, nitrous oxide, sulfur dioxide and many more are released into the atmosphere as a result of the combustion of fossil fuels for electricity generation, which contributes to climate change.
@@ -561,8 +559,7 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
        device = 'png')
 ```
 
-###### Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
-```{r Q3plot, echo=FALSE, fig.cap="Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021", fig.align='center'}
+```{r Q3plot, echo=FALSE, fig.cap="Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021", fig.align='center', fig.width=6.5}
 pollutants.plot
 ```
 
@@ -625,22 +622,18 @@ ggsave(filename = "./Plots/Q4_CO2EQA_Plot.png",
        device = 'png')
 ```
 
-###### Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
 ```{r Q4plot_CO2, echo=FALSE, fig.align='center', fig.cap="Carbon dioxide emissions in each BEA region in the USA in 2021"}
 CO2_Plot
 ```
 
-###### Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
 ```{r Q4plot_SO2, echo=FALSE, fig.align='center', fig.cap="Sulfur dioxide emissions in each BEA region in the USA in 2021"}
 SO2_Plot
 ```
 
-###### Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
 ```{r Q4plot_NOX, echo=FALSE, fig.align='center', fig.cap="Nitrogen oxide emissions in each BEA region in the USA in 2021"}
 NOX_Plot
 ```
 
-###### Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
 ```{r Q4plot_CO2e, echo=FALSE, fig.align='center', fig.cap="Carbon dioxide equivalent emissions in each BEA region in the USA in 2021"}
 CO2EQA_Plot
 ```
@@ -681,7 +674,6 @@ summary(T_GECO2EQA)
 print("************************************************************")
 ```
 
-###### Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
 ```{r Q5_CO2, echo=FALSE, fig.align='center', fig.cap="Linear Regression plot of Annual Net Energy Generation and CO2 emissions"}
 
 #Linear Regression plots of Annual Net Energy Generation and different types of pollutants 
@@ -693,7 +685,6 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2AN)) +
        title = "Linear Regression: Annual Net Energy Generation and CO2 Emissions")
 ```
 
-###### Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
 ```{r Q5_CO2e, echo=FALSE, fig.align='center', fig.cap="Linear Regression plot of Annual Net Energy Generation and CO2e emissions"}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2EQA)) +
   geom_point() +
@@ -703,7 +694,6 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2EQA)) +
        title = "Linear Regression: Annual Net Energy Generation and CO2 Eq Emissions")
 ```
 
-###### Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
 ```{r Q5_SO2, echo=FALSE, fig.align='center', fig.cap="Linear Regression plot of Annual Net Energy Generation and SO2 emissions"}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STSO2AN)) +
   geom_point() +
@@ -713,7 +703,6 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STSO2AN)) +
        title = "Linear Regression: Annual Net Energy Generation and SO2 Emissions")
 ```
 
-###### Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
 ```{r Q5_NOX, echo=FALSE, fig.align='center', fig.cap="Linear Regression plot of Annual Net Energy Generation and NOX emissions"}
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
   geom_point() +
@@ -739,7 +728,6 @@ model1.corplot <- GGally::ggpairs(data = dataset_final,
 
 ```
 
-###### Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
 ```{r model1 results, echo=FALSE, fig.align='center', fig.cap="Plot showing the correlation between explanatory and response variables for Model 1"}
 summary(model1)
 model1.corplot
@@ -763,7 +751,6 @@ model2.corplot <- GGally::ggpairs(data = model2_subset,
                           columns = c('rank_medianAQI', 'medianHHI', 'rank_pctRene', 'pctEducation', 'rank_SexRatio', 'DeathRate'))
 ```
 
-###### Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
 ```{r model2 results, echo=FALSE, fig.align='center', fig.cap="Plot showing the correlation between explanatory and response variables for Model 2"}
 summary(model2)
 model2.corplot
@@ -787,7 +774,6 @@ model3.corplot <- GGally::ggpairs(data = model3_subset,
 
 ```
 
-###### Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
 ```{r model3 results, echo=FALSE, fig.cap="Plot showing the correlation between explanatory and response variables for Model 3"}
 summary(model3)
 model3.corplot
@@ -800,6 +786,11 @@ Looking at our best model, we see that percent renewable energy consumption has 
 \newpage
 
 ### Summary and Conclusions
+
+In 2021, the energy market in the USA continued to shift towards renewable energy generation, but non-renewable sources still dominated the market. Through our analysis we were able to establish the same. 
+
+Future scope of work would involve comparing the generations and emissions over the next couple of years and understand the trend-line followed in each of these parameters of focus. 
+
 
 
 
