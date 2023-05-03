@@ -220,19 +220,19 @@ Below are some summary statistics of the installed capacity and annual generatio
 #summary stats of total nameplate capacity and annual generation per region
 summary.plants <- egrid_subset %>%
   select(Region, STNAMEPCAP, STNGENAN) %>%
-  rename("State nameplate capacity (MW)" = STNAMEPCAP,
-         "State annual net generation (MWh)" = STNGENAN) %>%
-  pivot_longer(cols = c("State nameplate capacity (MW)",
-                        "State annual net generation (MWh)"),
+  rename("State nameplate capacity (GW)" = STNAMEPCAP,
+         "State annual net generation (GWh)" = STNGENAN) %>%
+  pivot_longer(cols = c("State nameplate capacity (GW)",
+                        "State annual net generation (GWh)"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
-            min = round(min(value, na.rm = TRUE), 2),
-            max = round(max(value, na.rm = TRUE), 2),
-            mean = round(mean(value, na.rm =TRUE), 2),
-            median = round(median(value, na.rm =TRUE), 2),
-            sd = round(sd(value, na.rm =TRUE), 2),
-            skewness = round(skew(value,na.rm = TRUE), 2))
+            min = round(min(value/1000, na.rm = TRUE), 2),
+            max = round(max(value/1000, na.rm = TRUE), 2),
+            mean = round(mean(value/1000, na.rm =TRUE), 2),
+            median = round(median(value/1000, na.rm =TRUE), 2),
+            sd = round(sd(value/1000, na.rm =TRUE), 2),
+            skewness = round(skew(value/1000,na.rm = TRUE), 2))
 
 #summary stats of region-wise emission of different pollutants and the CO2 equivalents
  
@@ -260,35 +260,35 @@ summary.pollution <- egrid_subset %>%
 summary.fuels <- egrid_subset %>%
   select(Region, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY,
          STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF) %>%
-  rename("State annual coal net generation (MWh)" = STGENACL,
-         "State annual oil net generation (MWh)" = STGENAOL,
-         "State annual gas net generation (MWh)" = STGENAGS,
-         "State annual nuclear net generation (MWh)" = STGENANC,
-         "State annual hydro net generation (MWh)" = STGENAHY,
-         "State annual biomass net generation (MWh)" = STGENABM,
-         "State annual wind net generation (MWh)" = STGENAWI,
-         "State annual solar net generation (MWh)" = STGENASO,
-         "State annual geothermal net generation (MWh)" = STGENAGT,
-         "State annual other fossil net generation (MWh)" = STGENAOF) %>%
-  pivot_longer(cols = c("State annual coal net generation (MWh)",
-                        "State annual oil net generation (MWh)",
-                        "State annual gas net generation (MWh)",
-                        "State annual nuclear net generation (MWh)",
-                        "State annual hydro net generation (MWh)",
-                        "State annual biomass net generation (MWh)",
-                        "State annual wind net generation (MWh)",
-                        "State annual solar net generation (MWh)",
-                        "State annual geothermal net generation (MWh)",
-                        "State annual other fossil net generation (MWh)"),
+  rename("State annual coal net generation (GWh)" = STGENACL,
+         "State annual oil net generation (GWh)" = STGENAOL,
+         "State annual gas net generation (GWh)" = STGENAGS,
+         "State annual nuclear net generation (GWh)" = STGENANC,
+         "State annual hydro net generation (GWh)" = STGENAHY,
+         "State annual biomass net generation (GWh)" = STGENABM,
+         "State annual wind net generation (GWh)" = STGENAWI,
+         "State annual solar net generation (GWh)" = STGENASO,
+         "State annual geothermal net generation (GWh)" = STGENAGT,
+         "State annual other fossil net generation (GWh)" = STGENAOF) %>%
+  pivot_longer(cols = c("State annual coal net generation (GWh)",
+                        "State annual oil net generation (GWh)",
+                        "State annual gas net generation (GWh)",
+                        "State annual nuclear net generation (GWh)",
+                        "State annual hydro net generation (GWh)",
+                        "State annual biomass net generation (GWh)",
+                        "State annual wind net generation (GWh)",
+                        "State annual solar net generation (GWh)",
+                        "State annual geothermal net generation (GWh)",
+                        "State annual other fossil net generation (GWh)"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
-            min = round(min(value, na.rm = TRUE), 2),
-            max = round(max(value, na.rm = TRUE), 2),
-            mean = round(mean(value, na.rm=TRUE), 2),
-            median = round(median(value, na.rm=TRUE), 2),
-            sd = round(sd(value, na.rm=TRUE), 2),
-            skewness = round(skew(value, na.rm = TRUE), 2))
+            min = round(min(value/1000, na.rm = TRUE), 2),
+            max = round(max(value/1000, na.rm = TRUE), 2),
+            mean = round(mean(value/1000, na.rm=TRUE), 2),
+            median = round(median(value/1000, na.rm=TRUE), 2),
+            sd = round(sd(value/1000, na.rm=TRUE), 2),
+            skewness = round(skew(value/1000, na.rm = TRUE), 2))
 
 ```
 
@@ -299,8 +299,8 @@ summary.table.plants <- summary.plants %>%
     cols_width(c(variable)~ px(200),
                everything()~ px(120) )%>%
 
-  # tab_header(
-  #   title = md("Table 1: Summary Statistics for Variables per Region")) %>%
+  tab_header(
+    title = md("Table 1: Summary Statistics for Variables per Region")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -312,7 +312,7 @@ summary.table.plants <- summary.plants %>%
     sep_mark = ",") %>%
 
   cols_label(variable="Variable",
-    obs = "Observations",
+    obs = "Number of States",
     min = "Minimum",
     max = "Maximum",
     mean = "Mean",
@@ -383,24 +383,23 @@ summary.table.fuels
 ```
 
 \newpage
-
 ### Analysis
 #### Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 
 The first research question focuses on the distribution of electricity generation from renewable and non-renewable energy sources among the Bureau of Economic Analysis (BEA) regions in the United States. The BEA divides the United States into eight regions, which are:
 
-a) New England
-b) Mideast
-c) Great Lakes
-d) Plains
-e) Southeast
-f) Southwest
-g) Rocky Mountain
-h) Far West
+1. New England
+2. Mideast
+3. Great Lakes
+4. Plains
+5. Southeast
+6. Southwest
+7. Rocky Mountain
+8. Far West
 
-The purpose of this information is to gain a deeper understanding of the power production in different regions of United States and the types of energy sources used. This data can aid policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
+The purpose of this question is to gain a deeper understanding of the power production in different regions of the US and the types of energy sources used. This data can aid policymakers and analysts in identifying potential opportunities to increase the use of renewable energy sources and decrease reliance on non-renewable sources, such as coal and natural gas, which are known to contribute to greenhouse gas emissions and climate change. Additionally, the data can assist companies and investors in locating potential markets for renewable energy products and services.
 
-In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The state annual generation values were aggregated to obtain the annual electricity generation. This enabled us to obtain the total electricity generation for each region, annually. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
+In order to determine the distribution of electricity generation across the BEA regions in the USA, the states were grouped together based on their respective regions. The state-wise annual electricity generation was aggregated to obtain the region-wise annual generation. To better visualize and compare the electricity generation across different regions, we graphed the data in bar plots. 
 
 ```{r Research.Question.1, include=FALSE}
 
@@ -446,7 +445,7 @@ energy.sources.plot
 
 #### Question 2: What is the distribution of generation from each type of renewable energy sources across Bureau of Economic Analysis regions in the US?
 
-The second research question looks deeper into the distribution of electricity generation from each type of renewable energy source across the Bureau of Economic Analysis (BEA) regions in the United States. Renewable energy sources include solar, wind, hydro, geothermal, and biomass energy.
+The second research question looks deeper into the distribution of electricity generation from each type of renewable energy source across the BEA regions of the US. Renewable energy sources include solar, wind, hydro, geothermal, and biomass.
 
 The purpose of this question is to gain a better understanding of how different regions in the United States are utilizing various renewable energy sources for electricity generation. The data obtained can be useful in identifying the potential for growth in the use of renewable energy sources in certain regions and identifying areas where investments in renewable energy infrastructure and technology may be needed. It can be crucial data for policymakers to develop policies and regulations that encourage the growth of specific renewable energy across USA. The potential opportunities for growth and expansion of renewable energy plants into regions that have high potential can also be evaluated using this data. Additionally, this information can be useful for identifying regions where investments in renewable energy infrastructure could be profitable. 
 
@@ -460,7 +459,7 @@ colnames(distribution_rene) <- c("Region","Hydro-power generation (MWh)","Biomas
 table.annualgen <- kable(distribution_rene, align = c("l", rep("c", 7)))
 
 distribution_nonrene<-aggregate(cbind(STGENACL,STGENAOL,STGENAGS,STGENANC) ~ Region,data=egrid_subset, FUN=sum)
-print(distribution_nonrene)
+distribution_nonrene
 
 colnames(distribution_nonrene) <- c("Region","Coal generation (MWh)","Oil generation (MWh)","Natural Gas generation (MWh)","Nuclear generation (MWh)")
 
@@ -474,15 +473,15 @@ kable(distribution_rene, align = "c")
 
 #### Question 3: Greenhouse gas emissions across Bureau of Economic Analysis regions in the US from electricity generators.
 
-This question delves into greenhouse gas emissions from electricity generators across the Bureau of Economic Analysis (BEA) regions in the United States. Greenhouse gases, such as carbon dioxide, methane, nitrous oxide, sulfur dioxide and many more are released into the atmosphere as a result of the combustion of fossil fuels for electricity generation, which contributes to climate change.
+This question delves into greenhouse gas emissions from electricity generators across the BEA regions in the US. Greenhouse gases, such as carbon dioxide, methane, nitrous oxide, sulfur dioxide and many more are released into the atmosphere as a result of the combustion of fossil fuels for electricity generation, which contributes to climate change.
 
-The purpose of this question is to understand the level of greenhouse gas emissions from electricity generators in each region and to identify areas where there may be opportunities to reduce greenhouse gas emissions. 
+The purpose of this question is to understand the level of greenhouse gas emissions from electricity generation in each region and to identify areas where there may be opportunities to reduce greenhouse gas emissions. 
 
 Analysts can make use of this data to gain insights into the sources and levels of greenhouse gas emissions from electricity generators in each region and help in the development of strategies for reducing emissions. Policymakers across USA need this data to comprehend the necessity to develop policies and regulations that encourage the transition to clean energy sources and the reduction of greenhouse gas emissions from electricity generators, such as carbon pricing or cap-and-trade programs. This information is also crucial to identify regions where investments in renewable energy infrastructure, technology and operations may impact the environment. 
 
 In order to determine the greenhouse gas emissions across BEA regions in the US from electricity generators, 
 
-```{r Research.Question.3, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions", fig.align='center'}
+```{r Research.Question.3, include=FALSE}
 pollutants.plot <- 
   egrid_subset %>%
   select(Region, STCO2EQA, STCO2AN) %>%
@@ -504,7 +503,7 @@ pollutants.plot <-
          y = "Emissions (tons)",
          fill = "Emission category") +
     theme(axis.text.x = element_text(angle = 45, hjust = 0.75))
-pollutants.plot
+
 ggsave(filename = "./Plots/Q3_pollutants_plot.png",
        plot = pollutants.plot,
        dpi = 'retina',
@@ -512,12 +511,19 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
        device = 'png')
 ```
 
+```{r Q3plot, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions", fig.align='center'}
+pollutants.plot
+```
 
-#### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted?
 
-The summary statistics on electricity generators across the BEA regions in the United States would cover information such as the type of fuel source used, the nameplate capacity of the generators, the annual net generation of electricity, and the amount of pollutants emitted. The statistical analysis is performed to obtain a comprehensive understanding of the electricity generation infrastructure across different regions in the United States, to facilitate the identification of opportunities for investment in renewable energy infrastructure, evaluate the environmental impact of electricity generation in each region, and to develop policies and regulations that encourage the reduction of harmful emissions.
-      In order to conduct the statistical analysis, 
 
+#### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted
+
+The summary statistics on electricity generators across the BEA regions in the United States covers information such as the type of fuel source used, the nameplate capacity of the generators, the annual net generation of electricity, and the amount of pollutants emitted. We performed some statistical analyses to obtain more insights. Boxplots are used for summary statistics of this question as they are the most appropriate visualization to understand the distribution of annual net generation of electricity in different regions and the pollutants. They provide a reliable way to compare medians, ranges, spread of data, and identify potential outliers, and are more effective at communicating this information than violin plots or scatter plots.
+
+Looking at the plots for each region, we can see that the highest median of pollutants is in the Great Lakes region, while the lowest is in New England. Additionally, there is a potential outlier in the data for the South West region.
+
+obtain a comprehensive understanding of the electricity generation infrastructure across different regions in the United States, to facilitate the identification of opportunities for investment in renewable energy infrastructure, evaluate the environmental impact of electricity generation in each region, and to develop policies and regulations that encourage the reduction of harmful emissions.
 
 ```{r Research Question 4, include=FALSE}
 # Boxplot
@@ -580,7 +586,7 @@ CO2EQA_Plot
 
 #### Question 5: Is there correlation between energy generators and pollutants emitted? 
 
-As per our findings, there is a correlation between energy generators and pollutants emitted. The type of fuel source used by a generator affects the amount and type of pollutants that are emitted during power generation. Power plants that use unconventional fuels such as coal, oil, and natural gas emit pollutants such as carbon dioxide, methane, sulfur dioxide, nitrogen oxides, and many more, majorly contribute to climate change and air pollution.
+We wanted to understand the correlation between electricity generation and the quantity of different pollutants that are emitted. First, we developed linear regression models to understand the impact that electricity generation has on the emissions of different pollutants (so four linear regression models with one explanatory variable each). The four models all had an F-statistic of <0.001 indicating that the models had some explanatory power. We found a correlation between energy generators and pollutants emitted. The type of fuel source used by a generator affects the amount and type of pollutants that are emitted during power generation. Power plants that use non-renewable fuels such as coal, oil, and natural gas emit pollutants such as carbon dioxide, methane, sulfur dioxide, nitrogen oxides, and many more, majorly contribute to climate change and air pollution.
 
 Through this question we try to find this correlation between energy generators and the pollutants they emit. The information can be used to inform policy decisions related to reducing harmful emissions, such as setting emissions standards or incentives to increase the use of cleaner energy sources. It can also be useful for businesses to evaluate the environmental impact of their operations and to identify opportunities to reduce their carbon footprint. Understanding the correlation between energy generators and pollutants emitted can provide insights into the environmental impact of different types of energy sources and can be used by energy analysts in models for predicting future emissions trends. 
 
@@ -593,17 +599,21 @@ H~a~: There is correlation between energy generators and pollutants emitted
 ```{r Research Question 5}
 #T.Test of annual net energy generations and pollutants emitted 
 
-T_GENOX <- lm(egrid_subset$STNOXAN ~ egrid_subset$STNGENAN)
+T_GENOX <- lm(STNOXAN ~ STNGENAN, data = egrid_subset)
 summary(T_GENOX)
+print("************************************************************")
 
-T_GESO2 <-lm(egrid_subset$STSO2AN ~ egrid_subset$STNGENAN)
+T_GESO2 <-lm(STSO2AN ~ STNGENAN, data = egrid_subset)
 summary(T_GESO2)
+print("************************************************************")
 
-T_GECO2 <- lm(egrid_subset$STCO2AN ~ egrid_subset$STNGENAN)
+T_GECO2 <- lm(STCO2AN ~ STNGENAN, data = egrid_subset)
 summary(T_GECO2)
+print("************************************************************")
 
-T_GECO2EQA <- lm(egrid_subset$STCO2EQA ~ egrid_subset$STNGENAN)
+T_GECO2EQA <- lm(STCO2EQA ~ STNGENAN, data = egrid_subset)
 summary(T_GECO2EQA)
+print("************************************************************")
 
 #Linear Regression plots of Annual Net Energy Generation and different types of pullutants 
 ggplot(data = egrid_subset, aes(x = STNGENAN, y = STCO2AN)) +
