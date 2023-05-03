@@ -8,7 +8,7 @@ output:
   html_document:
     df_print: paged
 geometry: margin=2.54cm
-fig_caption: yes
+fig_caption: true
 ---
 
 ### LIST OF TABLES:
@@ -234,10 +234,10 @@ We generated some summary statistics of variables like the installed capacity an
 #summary stats of total nameplate capacity and annual generation per region
 summary.plants <- egrid_subset %>%
   select(Region, STNAMEPCAP, STNGENAN) %>%
-  rename("State nameplate capacity (GW)" = STNAMEPCAP,
-         "State annual net generation (GWh)" = STNGENAN) %>%
-  pivot_longer(cols = c("State nameplate capacity (GW)",
-                        "State annual net generation (GWh)"),
+  rename("Nameplate capacity (GW)" = STNAMEPCAP,
+         "Annual net generation (GWh)" = STNGENAN) %>%
+  pivot_longer(cols = c("Nameplate capacity (GW)",
+                        "Annual net generation (GWh)"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
@@ -252,48 +252,48 @@ summary.plants <- egrid_subset %>%
  
 summary.pollution <- egrid_subset %>%
   select(Region, STNOXAN, STSO2AN, STCO2AN, STCO2EQA) %>%
-  rename("State annual NOx emissions (tons)" = STNOXAN,
-         "State annual SO2 emissions (tons)" = STSO2AN,
-         "State annual CO2 emissions (tons)" = STCO2AN,
-         "State annual CO2 equivalent emissions (tons)" = STCO2EQA) %>%
-  pivot_longer(cols = c("State annual NOx emissions (tons)",
-                        "State annual SO2 emissions (tons)",
-                        "State annual CO2 emissions (tons)",
-                        "State annual CO2 equivalent emissions (tons)"),
+  rename("Annual NOx emissions" = STNOXAN,
+         "Annual SO2 emissions" = STSO2AN,
+         "Annual CO2 emissions" = STCO2AN,
+         "Annual CO2 equivalent emissions" = STCO2EQA) %>%
+  pivot_longer(cols = c("Annual NOx emissions",
+                        "Annual SO2 emissions",
+                        "Annual CO2 emissions",
+                        "Annual CO2 equivalent emissions"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
-            min = round(min(value, na.rm = TRUE), 2),
-            max = round(max(value, na.rm = TRUE), 2),
-            mean = round(mean(value, na.rm = TRUE), 2),
-            median = round(median(value, na.rm=TRUE), 2),
-            sd = round(sd(value, na.rm=TRUE), 2),
-            skewness = round(skew(value, na.rm = TRUE), 2))
+            min = round(min(value/1000, na.rm = TRUE), 2),
+            max = round(max(value/1000, na.rm = TRUE), 2),
+            mean = round(mean(value/1000, na.rm = TRUE), 2),
+            median = round(median(value/1000, na.rm=TRUE), 2),
+            sd = round(sd(value/1000, na.rm=TRUE), 2),
+            skewness = round(skew(value/1000, na.rm = TRUE), 2))
 
-#summary stats of region-wise breakdown of generation by fuel type
+#summary stats of region-wise breakdown of annual net generation (in GWh) by fuel type
 summary.fuels <- egrid_subset %>%
   select(Region, STGENACL, STGENAOL, STGENAGS, STGENANC, STGENAHY,
          STGENABM, STGENAWI, STGENASO, STGENAGT, STGENAOF) %>%
-  rename("State annual coal net generation (GWh)" = STGENACL,
-         "State annual oil net generation (GWh)" = STGENAOL,
-         "State annual gas net generation (GWh)" = STGENAGS,
-         "State annual nuclear net generation (GWh)" = STGENANC,
-         "State annual hydro net generation (GWh)" = STGENAHY,
-         "State annual biomass net generation (GWh)" = STGENABM,
-         "State annual wind net generation (GWh)" = STGENAWI,
-         "State annual solar net generation (GWh)" = STGENASO,
-         "State annual geothermal net generation (GWh)" = STGENAGT,
-         "State annual other fossil net generation (GWh)" = STGENAOF) %>%
-  pivot_longer(cols = c("State annual coal net generation (GWh)",
-                        "State annual oil net generation (GWh)",
-                        "State annual gas net generation (GWh)",
-                        "State annual nuclear net generation (GWh)",
-                        "State annual hydro net generation (GWh)",
-                        "State annual biomass net generation (GWh)",
-                        "State annual wind net generation (GWh)",
-                        "State annual solar net generation (GWh)",
-                        "State annual geothermal net generation (GWh)",
-                        "State annual other fossil net generation (GWh)"),
+  rename("Coal" = STGENACL,
+         "Oil" = STGENAOL,
+         "Gas" = STGENAGS,
+         "Nuclear" = STGENANC,
+         "Hydro" = STGENAHY,
+         "Biomass" = STGENABM,
+         "Wind" = STGENAWI,
+         "Solar" = STGENASO,
+         "Geothermal" = STGENAGT,
+         "Other fossil" = STGENAOF) %>%
+  pivot_longer(cols = c("Coal",
+                        "Oil",
+                        "Gas",
+                        "Nuclear",
+                        "Hydro",
+                        "Biomass",
+                        "Wind",
+                        "Solar",
+                        "Geothermal",
+                        "Other fossil"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
@@ -309,8 +309,8 @@ summary.fuels <- egrid_subset %>%
 ```{r summary.tables, include=FALSE}
 summary.table.plants <- summary.plants %>%
   gt() %>%
-    tab_options(container.width = pct(95)) %>%
-    cols_width(c(variable)~ px(150),
+    tab_options(table.width = pct(95)) %>%
+    cols_width(c(variable)~ px(90),
                everything()~ px(100) )%>%
 
   tab_header(
@@ -339,11 +339,11 @@ summary.table.plants
 summary.table.pollution <- summary.pollution %>%
   gt() %>%
     tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(200),
-               everything()~ px(120) )%>%
+    cols_width(c(variable)~ px(90),
+               everything()~ px(100) )%>%
 
   tab_header(
-    title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
+    title = md("Table 2: Summary Statistics of pollutants emitted per Region (in 1000 tons)")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -368,8 +368,8 @@ summary.table.pollution
 summary.table.fuels <- summary.fuels %>%
   gt() %>%
     tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(200),
-               everything()~ px(120) )%>%
+    cols_width(c(variable)~ px(90),
+               everything()~ px(100) )%>%
 
   tab_header(
     title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
@@ -639,7 +639,7 @@ CO2EQA_Plot
 ```
 
 \newpage
-#### Question 5: Is there correlation between energy generators and pollutants emitted? 
+#### Question 5: Is there correlation between energy generation and pollutants emitted? 
 
 We wanted to understand the correlation between electricity generation and the quantity of different pollutants that are emitted. First, we developed linear regression models to understand the impact that electricity generation has on the emissions of different pollutants (so four linear regression models with one explanatory variable each). The type of fuel source used by a generator affects the amount and type of pollutants that are emitted during power generation. Power plants that use non-renewable fuels such as coal, oil, and natural gas emit pollutants such as carbon dioxide, methane, sulfur dioxide, nitrogen oxides, and many more, majorly contribute to climate change and air pollution.
 
