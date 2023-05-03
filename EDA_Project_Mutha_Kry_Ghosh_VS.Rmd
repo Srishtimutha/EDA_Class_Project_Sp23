@@ -328,8 +328,8 @@ summary.table.pollution <- summary.pollution %>%
     cols_width(c(variable)~ px(200),
                everything()~ px(120) )%>%
 
-  # tab_header(
-  #   title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
+  tab_header(
+    title = md("Table 2: Summary Statistics of pollutants emitted per Region")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -357,8 +357,8 @@ summary.table.fuels <- summary.fuels %>%
     cols_width(c(variable)~ px(200),
                everything()~ px(120) )%>%
 
-  # tab_header(
-  #   title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
+  tab_header(
+    title = md("Table 3: Summary Statistics of Energy Sources Per Region")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -479,7 +479,7 @@ The purpose of this question is to understand the level of greenhouse gas emissi
 
 Analysts can make use of this data to gain insights into the sources and levels of greenhouse gas emissions from electricity generators in each region and help in the development of strategies for reducing emissions. Policymakers across USA need this data to comprehend the necessity to develop policies and regulations that encourage the transition to clean energy sources and the reduction of greenhouse gas emissions from electricity generators, such as carbon pricing or cap-and-trade programs. This information is also crucial to identify regions where investments in renewable energy infrastructure, technology and operations may impact the environment. 
 
-In order to determine the greenhouse gas emissions across BEA regions in the US from electricity generators, 
+In order to determine the greenhouse gas emissions across BEA regions in the US from electricity generators, we generated the stacked barplot below which shows the $CO_2$ and $CO_2$-equivalents emissions for the different regions in the US. We see that the South-East region has the highest emissions which can be correlated with the fact that this region has the greatest fraction of its electricity coming from non-renewable sources. New England and Non-Contiguous regions have the lowest emissions because of their low annual electricity generation. 
 
 ```{r Research.Question.3, include=FALSE}
 pollutants.plot <- 
@@ -514,8 +514,6 @@ ggsave(filename = "./Plots/Q3_pollutants_plot.png",
 ```{r Q3plot, echo=FALSE, fig.cap="Total CO2 and CO2 eq emissions across regions", fig.align='center'}
 pollutants.plot
 ```
-
-
 
 #### Question 4: Summary statistics of generators across the Bureau of Economic Analysis regions in the US, in terms of fuel source, nameplate capacity, annual net generation, and pollutants emitted
 
@@ -684,12 +682,6 @@ model2_subset <- dataset_final %>%
 model2 <- lm(DeathRate ~ rank_medianAQI + medianHHI + rank_pctRene + pctEducation + rank_SexRatio,
              data = model2_subset)
 
-ggplot(data = dataset_final,
-       mapping = aes(x = rank(SexRatio, ties.method = "average"),
-                     y = DeathRate)) +
-  geom_point() +
-  geom_smooth(method = 'lm')
-
 model2.corplot <- GGally::ggpairs(data = model2_subset, 
                           columns = c('rank_medianAQI', 'medianHHI', 'rank_pctRene', 'pctEducation', 'rank_SexRatio', 'DeathRate'))
 ```
@@ -699,7 +691,9 @@ summary(model2)
 model2.corplot
 ```
 
-Using the rank-transformed variables in our model, we get an F-statistic of 14.6 on 5 variables and 45 degrees of freedom, corresponding to a p-value <0.001. This means we can reject the null hypothesis for this model and conclude it has some explanatory power. Looking at the R2 value, we see these explanatory variables can explain under 62%
+Using the rank-transformed variables in our model, we get an F-statistic of 14.6 on 5 variables and 45 degrees of freedom, corresponding to a p-value <0.001. This means we can reject the null hypothesis for this model and conclude it has some explanatory power. Looking at the R2 value, we see these explanatory variables can explain under 62% of the variance of our response variable - death rate.
+
+Since this R2 is lower than that of Model 1, this model is not as good at explaining the variance of our response variable. Therefore, we tried using a log-transform of our variables.
 
 ```{r linear model3, include=FALSE}
 model3_subset <- dataset_final %>%
@@ -719,6 +713,10 @@ model3.corplot <- GGally::ggpairs(data = model3_subset,
 summary(model3)
 model3.corplot
 ```
+
+This third model has an F-statistic of 16.35 on 5 variables and 45 degrees of freedom, corresponding to a p-value of <0.001. This means we can reject the null hypothesis and conclude that our model has some explanatory power. The R2 for this model comes to 64.5% which is an improvement over Model 1.
+
+Looking at our best model, we see that percent renewable energy consumption has a $\beta$ value of -8.11 at a p-value of 0.68. This p-value is greater than 0.1 which means that this variable does not significantly explain variance of death rate across the US. This observation goes against our initial assumption where we expected renewable energy consumption to significantly impact death rates across the US.
 
 \newpage
 
