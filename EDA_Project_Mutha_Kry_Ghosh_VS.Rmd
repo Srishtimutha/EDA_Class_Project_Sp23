@@ -586,17 +586,21 @@ CO2EQA_Plot
 
 #### Question 5: Is there correlation between energy generators and pollutants emitted? 
 
-We wanted to understand the correlation between electricity generation and the quantity of different pollutants that are emitted. First, we developed linear regression models to understand the impact that electricity generation has on the emissions of different pollutants (so four linear regression models with one explanatory variable each). The four models all had an F-statistic of <0.001 indicating that the models had some explanatory power. We found a correlation between energy generators and pollutants emitted. The type of fuel source used by a generator affects the amount and type of pollutants that are emitted during power generation. Power plants that use non-renewable fuels such as coal, oil, and natural gas emit pollutants such as carbon dioxide, methane, sulfur dioxide, nitrogen oxides, and many more, majorly contribute to climate change and air pollution.
+We wanted to understand the correlation between electricity generation and the quantity of different pollutants that are emitted. First, we developed linear regression models to understand the impact that electricity generation has on the emissions of different pollutants (so four linear regression models with one explanatory variable each). The type of fuel source used by a generator affects the amount and type of pollutants that are emitted during power generation. Power plants that use non-renewable fuels such as coal, oil, and natural gas emit pollutants such as carbon dioxide, methane, sulfur dioxide, nitrogen oxides, and many more, majorly contribute to climate change and air pollution.
 
 Through this question we try to find this correlation between energy generators and the pollutants they emit. The information can be used to inform policy decisions related to reducing harmful emissions, such as setting emissions standards or incentives to increase the use of cleaner energy sources. It can also be useful for businesses to evaluate the environmental impact of their operations and to identify opportunities to reduce their carbon footprint. Understanding the correlation between energy generators and pollutants emitted can provide insights into the environmental impact of different types of energy sources and can be used by energy analysts in models for predicting future emissions trends. 
 
-H~o~: There is no correlation between energy generators and pollutants emitted
-H~a~: There is correlation between energy generators and pollutants emitted
+The hypotheses for our models are as follows:
+$H_o$: There is no correlation between energy generation and pollutants emitted.
+$H_a$: There is some correlation between energy generation and pollutants emitted.
+
+The four models all had a p-value of <0.001 indicating that the models had some explanatory power. We can therefore reject the null hypothesis for all four models and conclude that there is some correlation between energy generation and pollutants emitted.
+
+Our models had different R2 values though. Annual electricity generation is able to explain 63% of the variance in NO~x~ emissions and only under 42% of $SO_2$ emissions. Whereas it explains 82% of the variance in emissions of $CO_2$ and $CO_2$-equivalents.
+Further, the $\beta$ coefficients for the first two models (between electricity generation and $NO_x$ or $SO_2$) are of the order of $10^{-4}$ indicating a very small influence of electricity generation on the quantity of pollutants emitted. Whereas the $\beta$ coefficients for the last two models (between electricity generation and $CO_2$ or $CO_2$-equivalents) are of the order of $10^{-1}$ indicating that electricity generation has a 1000-fold greater impact on $CO_2$ emissions than it does on the other pollutants we looked at.
 
 
-
-
-```{r Research Question 5}
+```{r Research Question 5, echo=FALSE, fig.align='center'}
 #T.Test of annual net energy generations and pollutants emitted 
 
 T_GENOX <- lm(STNOXAN ~ STNGENAN, data = egrid_subset)
@@ -645,7 +649,7 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
        title = "Linear Regression: Annual Net Energy Generation and NOX Emissions")
 ```
 
-To analyse the effects of different parameters on the health of people in different states, we developed three multiple linear regression models. They look at the effect that the consumption of renewable energy has on people's health, with the following control variables:
+To build on this idea, we wanted to analyse the effects of different parameters on the health of people in different states, we developed three multiple linear regression models. They look at the effect that the consumption of renewable energy has on people's health at the state level instead of the region level so as to get more granular information. We chose the following control variables:
 1. air quality (which can make people vulnerable to airborne illnesses),
 2. education level (which influences people's awareness of diseases and pollutants),
 3. sex ratio (to separate out the predisposition of people of different sex to have different exposures to occupational hazards), and
@@ -665,6 +669,10 @@ model1.corplot <- GGally::ggpairs(data = dataset_final,
 summary(model1)
 model1.corplot
 ```
+
+This model has an F-statistic of 15.5 on 5 variables and 45 degrees of freedom, corresponding to a p-value of <0.001. This indicates that we can reject the null hypothesis and conclude that this model has some explanatory power. This set of explanatory variables is able to explain around 63% of the variance in death rate across the US.
+
+The correlation plot shows that we have some clustering of three explanatory variables - median AQI, percentage of total generation from renewables, and sex ratio. To improve the model we explored two transformations for these clustered variables - one being rank-transform and the other being log-transform.
 
 ```{r linear model2, include=FALSE}
 model2_subset <- dataset_final %>%
@@ -690,6 +698,8 @@ model2.corplot <- GGally::ggpairs(data = model2_subset,
 summary(model2)
 model2.corplot
 ```
+
+Using the rank-transformed variables in our model, we get an F-statistic of 14.6 on 5 variables and 45 degrees of freedom, corresponding to a p-value <0.001. This means we can reject the null hypothesis for this model and conclude it has some explanatory power. Looking at the R2 value, we see these explanatory variables can explain under 62%
 
 ```{r linear model3, include=FALSE}
 model3_subset <- dataset_final %>%
@@ -735,6 +745,8 @@ summary.table.fuels
 \newpage
 
 ### References
+
+[Project repository on GitHub](https://github.com/Srishtimutha/EDA_Class_Project_Sp23)
 
 1. https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States
 2. https://www.epa.gov/egrid/download-data
