@@ -43,7 +43,10 @@ if(!require(xfun)) {
   require(xfun)
 }
 
-
+if(!require(GGally)) {
+  install.packages("GGally")
+  require(GGally)
+}
 ```
 
 
@@ -55,6 +58,7 @@ library(knitr) #library of code that helps make pretty rendered docs
 library(psych) #really only here for the skew function for summary stats
 library(tidyverse) #dplyr, ggplot, and a bunch of other useful libraries
 library(gt) #to make pretty looking summary tables
+library(GGally)
 
 # Set your ggplot theme
 my_theme <- theme_minimal() +
@@ -133,7 +137,7 @@ medianHHI <- readxl::read_xlsx(path = './Data/Raw/US Census - Median Household I
   subset(Criterion == "Median income (dollars)") %>%
   pivot_longer(cols = -c('Criterion'),
                names_to = 'State',
-               values_to = 'median income') %>%
+               values_to = 'medianHHI') %>%
   select(-c('Criterion'))
 
 #Sex ratio across states, obtained from US Census 2020 5-year estimates
@@ -143,7 +147,7 @@ sexratio <- readxl::read_xlsx(path = './Data/Raw/US Census - Age and Sex Ratio 2
   subset(Criterion == "Sex ratio (males per 100 females)") %>%
   pivot_longer(cols = -c('Criterion'),
                names_to = 'State',
-               values_to = 'Sex ratio') %>%
+               values_to = 'SexRatio') %>%
   select(-c('Criterion'))
 
 #Percent of population with a high school degree or higher, from US Census 2020 5-year estimates
@@ -159,8 +163,9 @@ education <- readxl::read_xlsx(path = './Data/Raw/US Census - Education 2020.xls
 #Deaths per 100,000 residents, from US CDC for 2021 
 deathrate <- readxl::read_xlsx(path = './Data/Raw/US CDC - Death Rate 2021.xlsx',
                                skip = 1) %>%
-  rename('State' = 'State/Territory') %>%
-  select(State, 'Death Rate')
+  rename('State' = 'State/Territory',
+         'DeathRate' = 'Death Rate') %>%
+  select(State, DeathRate)
 
 stateabb <- readxl::read_xlsx(path = './Data/Raw/US SSA - 2 Letter State Abbreviations.xlsx',
                               skip = 1)
@@ -173,10 +178,14 @@ dataset_final <- merge(stateabb, egrid_subset,
   merge(medianHHI) %>%
   merge(sexratio) %>%
   merge(education) %>%
-  merge(deathrate)
-  
+  merge(deathrate) %>%
+  mutate(pctRene = STGENATR/STNGENAN,
+         medianHHI = as.numeric(medianHHI),
+         SexRatio = as.numeric(SexRatio),
+         pctEducation = as.numeric(pctEducation),
+         DeathRate = as.numeric(DeathRate))
 
-
+# write.csv(dataset_final, file = './Data/Processed/Final Merged Dataset.csv')
 ```
 
 
@@ -579,6 +588,8 @@ H~o~: There is no correlation between energy generators and pollutants emitted
 H~a~: There is correlation between energy generators and pollutants emitted
 
 
+
+
 ```{r Research Question 5}
 #T.Test of annual net energy generations and pollutants emitted 
 
@@ -624,11 +635,70 @@ ggplot(data = egrid_subset, aes(x = STNGENAN, y = STNOXAN)) +
        title = "Linear Regression: Annual Net Energy Generation and NOX Emissions")
 ```
 
-```{r linear models, include=FALSE}
+To analyse the effects of different parameters on the health of people in different states, we developed three multiple linear regression models. They look at the effect that the consumption of renewable energy has on people's health, with the following control variables:
+1. air quality (which can make people vulnerable to airborne illnesses),
+2. education level (which influences people's awareness of diseases and pollutants),
+3. sex ratio (to separate out the predisposition of people of different sex to have different exposures to occupational hazards), and
+4. median household income (which affects people's abilities to pay for healthcare)
+
+```{r linear model1, include=FALSE}
 #mortality rate ~ aqi + median household income + Renewable energy consumption % + education + sex ratio
+model1 <- lm(DeathRate ~ medianAQI + medianHHI + pctRene + pctEducation + SexRatio,
+             data = dataset_final)
+
+model1.corplot <- GGally::ggpairs(data = dataset_final, 
+                          columns = c('DeathRate', 'medianAQI', 'medianHHI', 'pctRene', 'pctEducation', 'SexRatio'))
 
 ```
 
+```{r model1 results, echo=FALSE, fig.align='center'}
+summary(model1)
+model1.corplot
+```
+
+```{r linear model2, include=FALSE}
+model2_subset <- dataset_final %>%
+  select(DeathRate, medianAQI, medianHHI, pctRene, pctEducation, SexRatio) %>%
+  mutate(rank_pctRene = rank(pctRene, ties.method = "average"),
+         rank_medianAQI = rank(medianAQI, ties.method = "average"),
+         rank_SexRatio = rank(SexRatio, ties.method = "average"))
+
+model2 <- lm(DeathRate ~ rank_medianAQI + medianHHI + rank_pctRene + pctEducation + rank_SexRatio,
+             data = model2_subset)
+
+ggplot(data = dataset_final,
+       mapping = aes(x = rank(SexRatio, ties.method = "average"),
+                     y = DeathRate)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
+
+model2.corplot <- GGally::ggpairs(data = model2_subset, 
+                          columns = c('rank_medianAQI', 'medianHHI', 'rank_pctRene', 'pctEducation', 'rank_SexRatio', 'DeathRate'))
+```
+
+```{r model2 results, echo=FALSE, fig.align='center'}
+summary(model2)
+model2.corplot
+```
+
+```{r linear model3, include=FALSE}
+model3_subset <- dataset_final %>%
+  select(DeathRate, medianAQI, medianHHI, pctRene, pctEducation, SexRatio) %>%
+  mutate(log_pctRene = log(pctRene),
+         log_medianAQI = log(medianAQI),
+         log_SexRatio = log(SexRatio))
+
+model3 <- lm(DeathRate ~ log_medianAQI + medianHHI + log_pctRene + pctEducation + log_SexRatio,
+             data = model3_subset)
+model3.corplot <- GGally::ggpairs(data = model3_subset, 
+                          columns = c('log_medianAQI', 'medianHHI', 'log_pctRene', 'pctEducation', 'log_SexRatio', 'DeathRate'))
+
+```
+
+```{r model3 results, echo=FALSE}
+summary(model3)
+model3.corplot
+```
 
 \newpage
 
