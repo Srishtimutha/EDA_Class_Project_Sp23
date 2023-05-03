@@ -252,14 +252,14 @@ summary.plants <- egrid_subset %>%
  
 summary.pollution <- egrid_subset %>%
   select(Region, STNOXAN, STSO2AN, STCO2AN, STCO2EQA) %>%
-  rename("Annual NOx emissions" = STNOXAN,
-         "Annual SO2 emissions" = STSO2AN,
-         "Annual CO2 emissions" = STCO2AN,
-         "Annual CO2 equivalent emissions" = STCO2EQA) %>%
-  pivot_longer(cols = c("Annual NOx emissions",
-                        "Annual SO2 emissions",
-                        "Annual CO2 emissions",
-                        "Annual CO2 equivalent emissions"),
+  rename("NOx" = STNOXAN,
+         "SO2" = STSO2AN,
+         "CO2" = STCO2AN,
+         "CO2 equivalent" = STCO2EQA) %>%
+  pivot_longer(cols = c("NOx",
+                        "SO2",
+                        "CO2",
+                        "CO2 equivalent"),
                names_to = "variable", values_to = "value") %>%
   group_by(Region, variable) %>%
   summarise(obs = length(value[!is.na(value)]),
@@ -310,7 +310,7 @@ summary.fuels <- egrid_subset %>%
 summary.table.plants <- summary.plants %>%
   gt() %>%
     tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(90),
+    cols_width(c(variable)~ px(80),
                everything()~ px(100) )%>%
 
   tab_header(
@@ -343,7 +343,7 @@ summary.table.pollution <- summary.pollution %>%
                everything()~ px(100) )%>%
 
   tab_header(
-    title = md("Table 2: Summary Statistics of pollutants emitted per Region (in 1000 tons)")) %>%
+    title = md("Table 2: Summary Statistics of Pollutants Emitted Annually Per Region (in 1000 tons)")) %>%
 
   fmt_passthrough (columns=c(Region)) %>%
   fmt_number(columns=c(obs), decimals=0) %>%
@@ -818,7 +818,7 @@ summary.table.fuels
 
 ### References
 
-[Project repository on GitHub](https://github.com/Srishtimutha/EDA_Class_Project_Sp23)
+[Link to Project repository on GitHub](https://github.com/Srishtimutha/EDA_Class_Project_Sp23)
 
 1. https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States
 2. https://www.epa.gov/egrid/download-data
