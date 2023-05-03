@@ -10,26 +10,26 @@ output:
 geometry: margin=2.54cm
 fig_caption: yes
 ---
-LIST OF TABLES:
-Table 1:Summary Statistics for Variables per Region
-Table 2: Summary Statistics of Pollutants Emitted per Region
-Table 3: Summary Statistics of Energy Sources Per Region
+####LIST OF TABLES:
+#Table 1:Summary Statistics for Variables per Region
+#Table 2: Summary Statistics of Pollutants Emitted per Region
+#Table 3: Summary Statistics of Energy Sources Per Region
 
-LIST OF FIGURES:
-Figure 1: Distribution of Energy Sources by Region in 2021
-Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
-Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
-Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
-Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
-Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
-Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
-Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
-Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
-Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
-Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
-Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
-Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
-Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
+####LIST OF FIGURES:
+#Figure 1: Distribution of Energy Sources by Region in 2021
+#Figure 2: Distribution of different renewable energy generation sources across BEA regions of USA in 2021
+#Figure 3: Plot of total CO2 and CO2e emissions across BEA regions of USA in 2021
+#Figure 4: Carbon dioxide emissions in each BEA region in the USA in 2021
+#Figure 5: Sulfur dioxide emissions in each BEA region in the USA in 2021
+#Figure 6: Nitrogen oxide emissions in each BEA region in the USA in 2021
+#Figure 7: Carbon dioxide equivalent emissions in each BEA region in the USA in 2021
+#Figure 8: Linear Regression plot of Annual Net Energy Generation and CO2 emissions 
+#Figure 9: Linear Regression plot of Annual Net Energy Generation and CO2e emissions 
+#Figure 10: Linear Regression plot of Annual Net Energy Generation and SO2 emissions
+#Figure 11: Linear Regression plot of Annual Net Energy Generation and NOX emissions
+#Figure 12: Plot showing the correlation between explanatory and response variables for Model 1
+#Figure 13: Plot showing the correlation between explanatory and response variables for Model 2
+#Figure 14: Plot showing the correlation between explanatory and response variables for Model 3
 
 ```{r installing packages, include=FALSE}
 if(!require(knitr)) {
@@ -801,6 +801,11 @@ model3.corplot
 \newpage
 
 ### Summary and Conclusions
+
+In 2021, the energy market in the USA continued to shift towards renewable energy generation, but non-renewable sources still dominated the market. Through our analysis we were able to establish the same. 
+
+Future scope of work would involve comparing the generations and emissions over the next couple of years and understand the trend-line followed in each of these parameters of focus. 
+
 
 
 
