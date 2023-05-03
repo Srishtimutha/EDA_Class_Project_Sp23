@@ -202,7 +202,7 @@ dataset_final <- merge(stateabb, egrid_subset,
 
 # write.csv(dataset_final, file = './Data/Processed/Final Merged Dataset.csv')
 ```
-
+\newpage
 ### Rationale and Research Questions
 
 The US has been transitioning towards a greater reliance on renewable energy sources such as wind, solar, hydro power and many more technologies. Analyzing the e-Grid data can provide insights into the distribution of clean energy generation across US, performance of these renewable energy sources, their impact on the electricity generation and energy markets throughout USA, and whether they are meeting the expectations of energy companies, policymakers, and consumers. 
@@ -217,12 +217,9 @@ This project aims to use e-GRID 2021 (published January 2023) to answer the foll
 
 These analyses will be performed by aggregating the states into categories as done by the Bureau of Economic Analysis which divides the states into 8 regions. We have added an additional "Non-Contiguous" category to represent states in the e-GRID dataset that are not part of mainland USA.
 
-\newpage
 
 ### Dataset Information
 The Emissions & Generation Resource Integrated Database (e-GRID) is a comprehensive source of data published by the Environment Protection Agency of the US Government.  This database describes various technical and environmental parameters of all electric power plants in the US, and is published annually. It includes emissions, emission rates, generation, heat input, resource mix, and many other attributes. eGRID is typically used for greenhouse gas registries and inventories, carbon footprints, consumer information disclosure, emission inventories and standards, power market changes, and avoided emission estimates.In our project we have used the e-Grid 2021 data-set which was released on January 30th, 2023. We have also made use of the USA EPA Census Data and CDC - Centers for Disease Control and Prevention for 2021. 
-
-\newpage
 
 
 ### Exploratory Analysis 
@@ -310,8 +307,8 @@ summary.fuels <- egrid_subset %>%
 summary.table.plants <- summary.plants %>%
   gt() %>%
     tab_options(table.width = pct(95)) %>%
-    cols_width(c(variable)~ px(80),
-               everything()~ px(100) )%>%
+    cols_width(c(variable)~ px(70),
+               everything()~ px(90) )%>%
 
   tab_header(
     title = md("Table 1: Summary Statistics for Variables per Region")) %>%
@@ -396,6 +393,7 @@ summary.table.fuels
 
 ```
 
+\newpage
 ### Analysis
 #### Question 1: What is the distribution of electricity generation across the Bureau of Economic Analysis regions in the US, from both the renewable and non-renewable energy sources?
 
@@ -788,9 +786,12 @@ Looking at our best model, we see that percent renewable energy consumption has 
 
 ### Summary and Conclusions
 
-In 2021, the energy market in the USA continued to shift towards renewable energy generation, but non-renewable sources still dominated the market. Through our analysis we were able to establish the same. 
-In conclusion, the data analytics assignment on electricity generation, renewable energy sources, greenhouse gas emissions, and pollutants in the BEA regions of the United States provides valuable insights that can inform policy decisions related to reducing greenhouse gas emissions, transitioning to cleaner energy sources, and identifying potential investment opportunities in renewable energy infrastructure. Through an examination of the distribution of electricity production from renewable and non-renewable sources, we got an in depth understanding of the distribution of energy across the country. For instance, the South-East predominantly relies on traditional sources of electricity, while the Far-West has a higher proportion of renewable energy production compared to non-renewable, despite the overall lower quantity of energy produced in the grid. This knowledge can support policymakers and analysts in identifying opportunities to increase the use of renewable energy sources while decreasing reliance on non-renewable sources that contribute to harmful greenhouse gas emissions. 
+In 2021, the energy market in the USA continued to shift towards renewable energy generation, but non-renewable sources still dominated the market. Through our analysis we were able to establish the same.
+
+In conclusion, the data analytics assignment on electricity generation, renewable energy sources, greenhouse gas emissions, and pollutants in the BEA regions of the United States provides valuable insights that can inform policy decisions related to reducing greenhouse gas emissions, transitioning to cleaner energy sources, and identifying potential investment opportunities in renewable energy infrastructure. Through an examination of the distribution of electricity production from renewable and non-renewable sources, we got an in depth understanding of the distribution of energy across the country. For instance, the South-East predominantly relies on traditional sources of electricity, while the Far-West has a higher proportion of renewable energy production compared to non-renewable, despite the overall lower quantity of energy produced in the grid. This knowledge can support policymakers and analysts in identifying opportunities to increase the use of renewable energy sources while decreasing reliance on non-renewable sources that contribute to harmful greenhouse gas emissions.
+
 We also discovered that wind power is the primary source of renewable energy generation in the US, followed closely by hydroelectric power. In contrast, geothermal energy has been the least utilized despite its immense potential and needs more investment for future exploration.
+
 We also examined the relationship between energy generators and emitted pollutants and discovered a clear correlation. Furthermore, we used an advanced model to understand the correlation between the death rate and renewable energy generation, along with various control variables. Our results indicate that renewable energy generation is not a significant indicator of the death rate.
 
 Future scope of work would involve comparing the generations and emissions over the next couple of years and understand the trend-line followed in each of these parameters of focus. 
@@ -818,7 +819,7 @@ summary.table.fuels
 
 ### References
 
-[Link to Project repository on GitHub](https://github.com/Srishtimutha/EDA_Class_Project_Sp23)
+[Hyperlink to Project repository on GitHub](https://github.com/Srishtimutha/EDA_Class_Project_Sp23)
 
 1. https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States
 2. https://www.epa.gov/egrid/download-data
